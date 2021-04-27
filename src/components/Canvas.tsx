@@ -1,16 +1,23 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef } from 'react';
+import { useCanvasSize } from '../hooks/useCanvasSize';
 import canvasState from '../store/canvasState';
-import toolState from '../store/toolState';
 import '../styles/canvas.scss';
-import { Brush } from '../tools/Brush';
 
 export const Canvas: React.FC = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    canvasState.setCanvas(canvasRef.current);
-    toolState.setTool(new Brush(canvasRef.current))
+    useCanvasSize(canvasRef.current!);
+    canvasState.setCanvas(canvasRef.current!);
+
+    window.addEventListener('resize', () => useCanvasSize(canvasRef.current!));
+
+    return () => {
+      window.removeEventListener('resize', () => {
+        useCanvasSize(canvasRef.current!);
+      });
+    };
   }, []);
 
   return (
