@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useCanvasSize } from '../hooks/useCanvasSize';
 import canvasState from '../store/canvasState';
 import '../styles/canvas.scss';
@@ -7,7 +7,7 @@ import '../styles/canvas.scss';
 export const Canvas: React.FC = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     useCanvasSize(canvasRef.current!);
     canvasState.setCanvas(canvasRef.current!);
 

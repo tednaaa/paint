@@ -3,6 +3,9 @@ import canvasState from '../store/canvasState';
 import toolState from '../store/toolState';
 import '../styles/toolbar.scss';
 import { Brush } from '../tools/Brush';
+import { Circle } from '../tools/Circle';
+import { Eraser } from '../tools/Eraser';
+import { Line } from '../tools/Line';
 import { Rect } from '../tools/Rect';
 import { Tool } from '../tools/Tool';
 import { Burger } from './Burger';
@@ -34,9 +37,18 @@ export const ToolBar: React.FC = () => {
           className="toolbar-item toolbar-item--rect"
           onClick={() => setTool(new Rect(canvasState.canvas))}
         ></button>
-        <button className="toolbar-item toolbar-item--circle"></button>
-        <button className="toolbar-item toolbar-item--eraser"></button>
-        <button className="toolbar-item toolbar-item--line"></button>
+        <button
+          className="toolbar-item toolbar-item--circle"
+          onClick={() => setTool(new Circle(canvasState.canvas))}
+        ></button>
+        <button
+          className="toolbar-item toolbar-item--eraser"
+          onClick={() => setTool(new Eraser(canvasState.canvas))}
+        ></button>
+        <button
+          className="toolbar-item toolbar-item--line"
+          onClick={() => setTool(new Line(canvasState.canvas))}
+        ></button>
         <input className="toolbar-item" type="color" />
       </div>
       <div className="toolbar__right">
