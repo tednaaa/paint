@@ -1,28 +1,38 @@
 import { observer } from 'mobx-react-lite';
-import { useLayoutEffect, useRef } from 'react';
+import { FC, useLayoutEffect, useRef } from 'react';
 import { useCanvasSize } from '../hooks/useCanvasSize';
 import canvasState from '../store/canvasState';
 import '../styles/canvas.scss';
 
-export const Canvas: React.FC = observer(() => {
+export const Canvas: FC = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useLayoutEffect(() => {
-    useCanvasSize(canvasRef.current!);
-    canvasState.setCanvas(canvasRef.current!);
+  const handleDrawEnd = () => {
+    canvasState.pushToUndo(canvasRef.current?.toDataURL()!);
+  };
 
-    window.addEventListener('resize', () => useCanvasSize(canvasRef.current!));
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current;
+
+    useCanvasSize(canvas);
+    canvasState.setCanvas(canvas!);
+
+    window.addEventListener('resize', () => useCanvasSize(canvas));
 
     return () => {
       window.removeEventListener('resize', () => {
-        useCanvasSize(canvasRef.current!);
+        useCanvasSize(canvas);
       });
     };
   }, []);
 
   return (
     <div className="canvas">
-      <canvas ref={canvasRef}></canvas>
+      <canvas
+        onMouseDown={handleDrawEnd}
+        onTouchEnd={handleDrawEnd}
+        ref={canvasRef}
+      ></canvas>
     </div>
   );
 });

@@ -1,4 +1,4 @@
-export const useCanvasSize = (canvas: HTMLCanvasElement) => {
+export const useCanvasSize = (canvas: HTMLCanvasElement | null) => {
   if (canvas) {
     canvas.setAttribute('height', getCanvasSize(window.innerHeight, 80));
     canvas.setAttribute('width', getCanvasSize(window.innerWidth, 90));

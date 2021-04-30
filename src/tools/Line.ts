@@ -74,7 +74,7 @@ export class Line extends Tool {
       this.ctx.beginPath();
       this.ctx.moveTo(this.currentX, this.currentY);
       this.ctx.lineTo(x, y);
-      this.ctx.fill();
+      this.ctx.stroke();
     };
   }
 }

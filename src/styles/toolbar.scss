@@ -14,22 +14,22 @@
   align-items: center;
 
   @media (max-width: 576px) {
-    flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
     position: fixed;
     top: 0;
     left: 0;
-    height: 30%;
+    height: 10%;
     width: 100%;
     padding: 20px;
     background: #ececec;
-    transform: translateY(-150%);
+    transform: translateY(-120%);
     transition: transform 0.5s;
   }
 }
 
 .toolbar__left--active {
-  transform: translateX(0);
+  transform: translateY(0);
 }
 
 .toolbar-item {
@@ -45,51 +45,26 @@
 .toolbar-item--brush {
   background-image: url('../assets/images/icons/brush.svg');
   margin-right: 16px;
-
-  @media (max-width: 576px) {
-    margin-right: 0;
-    margin-bottom: 16px;
-  }
 }
 
 .toolbar-item--rect {
   background-image: url('../assets/images/icons/rect.svg');
   margin-right: 16px;
-
-  @media (max-width: 576px) {
-    margin-right: 0;
-    margin-bottom: 16px;
-  }
 }
 
 .toolbar-item--circle {
   background-image: url('../assets/images/icons/circle.svg');
   margin-right: 16px;
-
-  @media (max-width: 576px) {
-    margin-right: 0;
-    margin-bottom: 16px;
-  }
 }
 
 .toolbar-item--eraser {
   background-image: url('../assets/images/icons/eraser.svg');
   margin-right: 16px;
-
-  @media (max-width: 576px) {
-    margin-right: 0;
-    margin-bottom: 16px;
-  }
 }
 
 .toolbar-item--line {
   background-image: url('../assets/images/icons/line.svg');
   margin-right: 16px;
-
-  @media (max-width: 576px) {
-    margin-right: 0;
-    margin-bottom: 16px;
-  }
 }
 
 .toolbar-item--undo {

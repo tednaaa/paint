@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import canvasState from '../store/canvasState';
 import toolState from '../store/toolState';
 import '../styles/toolbar.scss';
@@ -16,6 +16,13 @@ export const ToolBar: React.FC = () => {
   const setTool = (tool: Tool) => {
     toolState.setTool(tool);
     setBurgerActive(false);
+  };
+
+  const handleColorChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const color = event.currentTarget.value;
+
+    toolState.setFillColor(color);
+    toolState.setStrokeColor(color);
   };
 
   return (
@@ -49,11 +56,21 @@ export const ToolBar: React.FC = () => {
           className="toolbar-item toolbar-item--line"
           onClick={() => setTool(new Line(canvasState.canvas))}
         ></button>
-        <input className="toolbar-item" type="color" />
+        <input
+          className="toolbar-item"
+          type="color"
+          onChange={handleColorChange}
+        />
       </div>
       <div className="toolbar__right">
-        <button className="toolbar-item toolbar-item--undo"></button>
-        <button className="toolbar-item toolbar-item--redo"></button>
+        <button
+          className="toolbar-item toolbar-item--undo"
+          onClick={() => canvasState.undo()}
+        ></button>
+        <button
+          className="toolbar-item toolbar-item--redo"
+          onClick={() => canvasState.redo()}
+        ></button>
         <button className="toolbar-item toolbar-item--save"></button>
       </div>
     </div>
