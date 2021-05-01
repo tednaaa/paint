@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import toolState from '../store/toolState';
 import '../styles/settingbar.scss';
 
@@ -13,18 +13,20 @@ export const SettingBar: FC = () => {
 
     if (lineWidth >= minThickness && lineWidth <= maxThickness) {
       setInputValue(lineWidth);
-
-      toolState.setLineWidth(lineWidth);
     }
   };
+
+  useEffect(() => {
+    toolState.setLineWidth(inputValue);
+  }, [inputValue]);
 
   return (
     <div className="setting-bar">
       <p className="setting-bar__text">Толщина линии</p>
       <input
         type="number"
-        onChange={handleInputChange}
         value={inputValue}
+        onChange={handleInputChange}
         className="setting-bar__thickness"
       />
     </div>

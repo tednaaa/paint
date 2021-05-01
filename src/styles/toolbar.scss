@@ -16,10 +16,10 @@
   @media (max-width: 576px) {
     align-items: center;
     justify-content: flex-end;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    height: 10%;
+    height: 100%;
     width: 100%;
     padding: 20px;
     background: #ececec;

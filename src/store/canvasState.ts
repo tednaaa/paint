@@ -24,7 +24,7 @@ class CanvasState {
 
   undo() {
     if (this.undoList.length) {
-      const dataUrl = this.undoList.pop()!;
+      const dataUrl = this.undoList.pop();
 
       this.redoList.push(this.canvas.toDataURL());
 
@@ -38,7 +38,7 @@ class CanvasState {
 
   redo() {
     if (this.redoList.length) {
-      const dataUrl = this.redoList.pop()!;
+      const dataUrl = this.redoList.pop();
 
       this.undoList.push(this.canvas.toDataURL());
 

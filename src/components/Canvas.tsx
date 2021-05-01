@@ -8,22 +8,26 @@ export const Canvas: FC = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleDrawEnd = () => {
-    canvasState.pushToUndo(canvasRef.current?.toDataURL()!);
+    if (canvasRef.current) {
+      canvasState.pushToUndo(canvasRef.current.toDataURL());
+    }
   };
 
   useLayoutEffect(() => {
     const canvas = canvasRef.current;
 
-    useCanvasSize(canvas);
-    canvasState.setCanvas(canvas!);
+    if (canvas) {
+      useCanvasSize(canvas);
+      canvasState.setCanvas(canvas);
 
-    window.addEventListener('resize', () => useCanvasSize(canvas));
+      window.addEventListener('resize', () => useCanvasSize(canvas));
 
-    return () => {
-      window.removeEventListener('resize', () => {
-        useCanvasSize(canvas);
-      });
-    };
+      return () => {
+        window.removeEventListener('resize', () => {
+          useCanvasSize(canvas);
+        });
+      };
+    }
   }, []);
 
   return (

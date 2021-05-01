@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import canvasState from '../store/canvasState';
 import toolState from '../store/toolState';
 import '../styles/toolbar.scss';
@@ -24,6 +24,10 @@ export const ToolBar: React.FC = () => {
     toolState.setFillColor(color);
     toolState.setStrokeColor(color);
   };
+
+  useEffect(() => {
+    setTool(new Brush(canvasState.canvas));
+  }, []);
 
   return (
     <div className="toolbar">
