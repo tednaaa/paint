@@ -12,21 +12,27 @@ import { Burger } from './Burger';
 
 export const ToolBar: React.FC = () => {
   const [isBurgerActive, setBurgerActive] = useState(false);
+  const [color, setColor] = useState('#000');
 
   const setTool = (tool: Tool) => {
     toolState.setTool(tool);
+
+    toolState.setStrokeColor(color);
+
     setBurgerActive(false);
   };
 
   const handleColorChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const color = event.currentTarget.value;
-
-    toolState.setFillColor(color);
-    toolState.setStrokeColor(color);
+    setColor(event.currentTarget.value);
   };
 
   useEffect(() => {
-    setTool(new Brush(canvasState.canvas));
+    toolState.setFillColor(color);
+    toolState.setStrokeColor(color);
+  }, [color]);
+
+  useEffect(() => {
+    toolState.setTool(new Brush(canvasState.canvas));
   }, []);
 
   return (

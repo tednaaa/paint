@@ -19,14 +19,6 @@ export const Canvas: FC = observer(() => {
     if (canvas) {
       useCanvasSize(canvas);
       canvasState.setCanvas(canvas);
-
-      window.addEventListener('resize', () => useCanvasSize(canvas));
-
-      return () => {
-        window.removeEventListener('resize', () => {
-          useCanvasSize(canvas);
-        });
-      };
     }
   }, []);
 
@@ -34,7 +26,7 @@ export const Canvas: FC = observer(() => {
     <div className="canvas">
       <canvas
         onMouseDown={handleDrawEnd}
-        onTouchEnd={handleDrawEnd}
+        onTouchStart={handleDrawEnd}
         ref={canvasRef}
       ></canvas>
     </div>

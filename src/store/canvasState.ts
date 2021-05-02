@@ -26,7 +26,7 @@ class CanvasState {
     if (this.undoList.length) {
       const dataUrl = this.undoList.pop();
 
-      this.redoList.push(this.canvas.toDataURL());
+      this.pushToRedo(this.canvas.toDataURL());
 
       loadImage(dataUrl, this.canvas);
     } else {
@@ -40,7 +40,7 @@ class CanvasState {
     if (this.redoList.length) {
       const dataUrl = this.redoList.pop();
 
-      this.undoList.push(this.canvas.toDataURL());
+      this.pushToUndo(this.canvas.toDataURL());
 
       loadImage(dataUrl, this.canvas);
     }
