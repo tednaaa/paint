@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import canvasState from '../store/canvasState';
 import toolState from '../store/toolState';
 import '../styles/toolbar.scss';
@@ -10,7 +10,7 @@ import { Rect } from '../tools/Rect';
 import { Tool } from '../tools/Tool';
 import { Burger } from './Burger';
 
-export const ToolBar: React.FC = () => {
+export const ToolBar: FC = () => {
   const [isBurgerActive, setBurgerActive] = useState(false);
   const [color, setColor] = useState('#000');
 

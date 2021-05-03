@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import '../styles/burger.scss';
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
   isBurgerActive: boolean;
 }
 
-export const Burger: React.FC<Props> = ({ onClick, isBurgerActive }) => {
+export const Burger: FC<Props> = ({ onClick, isBurgerActive }) => {
   return (
     <button
       onClick={onClick}
