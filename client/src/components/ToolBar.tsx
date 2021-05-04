@@ -1,7 +1,7 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import canvasState from '../store/canvasState';
 import toolState from '../store/toolState';
-import '../styles/toolbar.scss';
+import '../styles/toolBar.scss';
 import { Brush } from '../tools/Brush';
 import { Circle } from '../tools/Circle';
 import { Eraser } from '../tools/Eraser';
@@ -20,10 +20,6 @@ export const ToolBar: FC = () => {
     toolState.setStrokeColor(color);
 
     setBurgerActive(false);
-  };
-
-  const handleColorChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setColor(event.currentTarget.value);
   };
 
   useEffect(() => {
@@ -69,7 +65,7 @@ export const ToolBar: FC = () => {
         <input
           className="toolbar-item"
           type="color"
-          onChange={handleColorChange}
+          onChange={(event) => setColor(event.currentTarget.value)}
         />
       </div>
       <div className="toolbar__right">

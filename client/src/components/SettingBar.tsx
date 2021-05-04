@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import toolState from '../store/toolState';
-import '../styles/settingbar.scss';
+import '../styles/settingBar.scss';
 
 export const SettingBar: FC = () => {
   const [inputValue, setInputValue] = useState(1);
@@ -22,13 +22,15 @@ export const SettingBar: FC = () => {
 
   return (
     <div className="setting-bar">
-      <p className="setting-bar__text">Толщина линии</p>
-      <input
-        type="number"
-        value={inputValue}
-        onChange={handleInputChange}
-        className="setting-bar__thickness"
-      />
+      <label className="setting-bar__label">
+        Line width
+        <input
+          type="number"
+          value={inputValue}
+          onChange={handleInputChange}
+          className="setting-bar__input"
+        />
+      </label>
     </div>
   );
 };
