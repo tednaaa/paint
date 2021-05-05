@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { FC, MouseEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import authModalState from '../store/authModalState';
+import canvasState from '../store/canvasState';
 import '../styles/authModal.scss';
 import { Button } from './Button';
 
@@ -11,7 +12,17 @@ export const AuthModal: FC = observer(() => {
     event.preventDefault();
 
     if (inputValue) {
+      canvasState.setUsername(inputValue);
+
       authModalState.setActive(false);
+    }
+  };
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const username = event.currentTarget.value;
+
+    if (username.length <= 20) {
+      setInputValue(username);
     }
   };
 
@@ -27,7 +38,7 @@ export const AuthModal: FC = observer(() => {
       <label className="modal__label">
         Write your name
         <input
-          onChange={(event) => setInputValue(event.currentTarget.value)}
+          onChange={handleInputChange}
           value={inputValue}
           className="modal__input"
           type="text"

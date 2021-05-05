@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import toolState from '../store/toolState';
 import '../styles/settingBar.scss';
+import { validateInputLineWidth } from '../utils/validateInputLineWidth';
 
 export const SettingBar: FC = () => {
   const [inputValue, setInputValue] = useState(1);
@@ -8,12 +9,7 @@ export const SettingBar: FC = () => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const lineWidth = parseInt(event.currentTarget.value);
 
-    const minThickness = 1;
-    const maxThickness = 50;
-
-    if (lineWidth >= minThickness && lineWidth <= maxThickness) {
-      setInputValue(lineWidth);
-    }
+    validateInputLineWidth(lineWidth, 1, 50, () => setInputValue(lineWidth));
   };
 
   useEffect(() => {

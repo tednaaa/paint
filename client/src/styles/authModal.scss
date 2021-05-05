@@ -4,11 +4,11 @@
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 1s;
-  background: #363636;
-  height: 50%;
-  width: 80%;
+  height: 200px;
+  width: 300px;
   z-index: 50;
   color: #fff;
+  background: #363636;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,4 +29,5 @@
   margin-top: 15px;
   height: 40px;
   padding: 10px;
+  text-align: center;
 }
