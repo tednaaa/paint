@@ -46,7 +46,13 @@ app.post('/image', (request: any, response: any) => {
   try {
     const data = request.body.image.replace('data:image/png;base64,', '');
 
-    fs.writeFileSync(path.resolve(__dirname, 'images', `${request.query.id}.jpg`), data, 'base64');
+    fs.writeFileSync(
+      path.resolve(__dirname, 'images', `${Object.keys(request.query)[0]}.jpg`),
+      data,
+      'base64'
+    );
+
+    return response.status(200).json({ message: 'loaded' });
   } catch (error) {
     console.log(error);
 
@@ -55,6 +61,12 @@ app.post('/image', (request: any, response: any) => {
 });
 app.get('/image', (request: any, response: any) => {
   try {
+    const file = fs.readFileSync(
+      path.resolve(__dirname, 'images', `${Object.keys(request.query)[0]}.jpg`)
+    );
+    const data = `data:image/png;base64,${file.toString('base64')}`;
+
+    return response.json(data);
   } catch (error) {
     console.log(error);
 
