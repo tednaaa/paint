@@ -4,10 +4,13 @@ export class Rect extends Tool {
   mouseDown = false;
   startX: number = 0;
   startY: number = 0;
+  width: number = 0;
+  height: number = 0;
+  color: string = '';
   saved: string = '';
 
-  constructor(canvas: HTMLCanvasElement) {
-    super(canvas);
+  constructor(canvas: HTMLCanvasElement, socket: any, id: string) {
+    super(canvas, socket, id);
 
     this.listen();
   }
@@ -24,6 +27,21 @@ export class Rect extends Tool {
 
   handleMouseUp() {
     this.mouseDown = false;
+
+    this.socket.send(
+      JSON.stringify({
+        method: 'draw',
+        id: this.id,
+        figure: {
+          type: 'rect',
+          x: this.startX,
+          y: this.startY,
+          width: this.width,
+          height: this.height,
+          color: this.ctx.fillStyle,
+        },
+      })
+    );
   }
 
   handleMouseDown(event: MouseEvent | TouchEvent) {
@@ -52,17 +70,17 @@ export class Rect extends Tool {
       if (event instanceof TouchEvent) {
         let currentX = event.touches[0].pageX - target.offsetLeft;
         let currentY = event.touches[0].pageY - target.offsetTop;
-        let width = currentX - this.startX;
-        let height = currentY - this.startY;
+        this.width = currentX - this.startX;
+        this.height = currentY - this.startY;
 
-        this.draw(this.startX, this.startY, width, height);
+        this.draw(this.startX, this.startY, this.width, this.height);
       } else {
         let currentX = event.pageX - target.offsetLeft;
         let currentY = event.pageY - target.offsetTop;
-        let width = currentX - this.startX;
-        let height = currentY - this.startY;
+        this.width = currentX - this.startX;
+        this.height = currentY - this.startY;
 
-        this.draw(this.startX, this.startY, width, height);
+        this.draw(this.startX, this.startY, this.width, this.height);
       }
     }
   }
@@ -78,5 +96,19 @@ export class Rect extends Tool {
       this.ctx.rect(x, y, width, height);
       this.ctx.fill();
     };
+  }
+
+  static staticDraw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    color: string
+  ) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.rect(x, y, width, height);
+    ctx.fill();
   }
 }

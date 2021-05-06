@@ -1,42 +1,66 @@
 require('dotenv').config();
 
 const express = require('express');
-
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const app = express();
-
 const WSServer = require('express-ws')(app);
 const aWss = WSServer.getWss();
 
+app.use(cors());
+app.use(express.json());
+
 const { HOST, PORT } = process.env;
 
-app.ws('/', (ws: any, req: any) => {
-  ws.on('message', (msg: any) => {
-    msg = JSON.parse(msg);
+app.ws('/', (webSocket: any, request: any) => {
+  webSocket.on('message', (message: any) => {
+    message = JSON.parse(message);
 
-    switch (msg.method) {
+    switch (message.method) {
       case 'connect':
-        handleConnection(ws, msg);
+        handleConnection(webSocket, message);
         break;
-      case 'message':
-        handleConnection(ws, msg);
+      case 'draw':
+        broadcastConnection(webSocket, message);
         break;
     }
   });
 });
 
-const handleConnection = (ws: any, msg: any) => {
-  ws.id = msg.id;
+const handleConnection = (webSocket: any, message: any) => {
+  webSocket.id = message.id;
 
-  broadcastConnection(ws, msg);
+  broadcastConnection(webSocket, message);
 };
 
-const broadcastConnection = (ws: any, msg: any) => {
+const broadcastConnection = (webSocket: any, message: any) => {
   aWss.clients.forEach((client: any) => {
-    if (client.id === msg.id) {
-      client.send(`Пользователь ${msg.username} подключился`);
+    if (client.id === message.id) {
+      client.send(JSON.stringify(message));
     }
   });
 };
+
+app.post('/image', (request: any, response: any) => {
+  try {
+    const data = request.body.image.replace('data:image/png;base64,', '');
+
+    fs.writeFileSync(path.resolve(__dirname, 'images', `${request.query.id}.jpg`), data, 'base64');
+  } catch (error) {
+    console.log(error);
+
+    return response.status(500).json('error');
+  }
+});
+app.get('/image', (request: any, response: any) => {
+  try {
+  } catch (error) {
+    console.log(error);
+
+    return response.status(500).json('error');
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server started on: https://${HOST}:${PORT}`);

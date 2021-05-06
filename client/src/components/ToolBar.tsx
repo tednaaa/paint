@@ -1,5 +1,7 @@
 import { FC, useEffect, useState } from 'react';
+import { socket } from '../api';
 import canvasState from '../store/canvasState';
+import sessionState from '../store/sessionState';
 import toolState from '../store/toolState';
 import '../styles/toolBar.scss';
 import { Brush } from '../tools/Brush';
@@ -27,9 +29,16 @@ export const ToolBar: FC = () => {
     toolState.setStrokeColor(color);
   }, [color]);
 
-  useEffect(() => {
-    toolState.setTool(new Brush(canvasState.canvas));
-  }, []);
+  const download = () => {
+    const dataUrl = canvasState.canvas.toDataURL();
+
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = sessionState.id + '.jpg';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
 
   return (
     <div className="toolbar">
@@ -44,23 +53,33 @@ export const ToolBar: FC = () => {
       >
         <button
           className="toolbar-item toolbar-item--brush"
-          onClick={() => setTool(new Brush(canvasState.canvas))}
+          onClick={() =>
+            setTool(new Brush(canvasState.canvas, socket, sessionState.id))
+          }
         ></button>
         <button
           className="toolbar-item toolbar-item--rect"
-          onClick={() => setTool(new Rect(canvasState.canvas))}
+          onClick={() =>
+            setTool(new Rect(canvasState.canvas, socket, sessionState.id))
+          }
         ></button>
         <button
           className="toolbar-item toolbar-item--circle"
-          onClick={() => setTool(new Circle(canvasState.canvas))}
+          onClick={() =>
+            setTool(new Circle(canvasState.canvas, socket, sessionState.id))
+          }
         ></button>
         <button
           className="toolbar-item toolbar-item--eraser"
-          onClick={() => setTool(new Eraser(canvasState.canvas))}
+          onClick={() =>
+            setTool(new Eraser(canvasState.canvas, socket, sessionState.id))
+          }
         ></button>
         <button
           className="toolbar-item toolbar-item--line"
-          onClick={() => setTool(new Line(canvasState.canvas))}
+          onClick={() =>
+            setTool(new Line(canvasState.canvas, socket, sessionState.id))
+          }
         ></button>
         <input
           className="toolbar-item"
@@ -77,7 +96,10 @@ export const ToolBar: FC = () => {
           className="toolbar-item toolbar-item--redo"
           onClick={() => canvasState.redo()}
         ></button>
-        <button className="toolbar-item toolbar-item--save"></button>
+        <button
+          className="toolbar-item toolbar-item--save"
+          onClick={download}
+        ></button>
       </div>
     </div>
   );

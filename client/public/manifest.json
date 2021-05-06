@@ -1,6 +1,6 @@
 {
-  "short_name": "RP",
-  "name": "Create Paint",
+  "short_name": "paint",
+  "name": "Paint",
   "icons": [
     {
       "src": "favicon.ico",

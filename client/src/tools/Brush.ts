@@ -3,8 +3,8 @@ import { Tool } from './Tool';
 export class Brush extends Tool {
   mouseDown = false;
 
-  constructor(canvas: HTMLCanvasElement) {
-    super(canvas);
+  constructor(canvas: HTMLCanvasElement, socket: any, id: string) {
+    super(canvas, socket, id);
 
     this.listen();
   }
@@ -21,6 +21,16 @@ export class Brush extends Tool {
 
   handleMouseUp() {
     this.mouseDown = false;
+
+    this.socket.send(
+      JSON.stringify({
+        method: 'draw',
+        id: this.id,
+        figure: {
+          type: 'finish',
+        },
+      })
+    );
   }
 
   handleMouseDown(event: MouseEvent | TouchEvent) {
@@ -50,21 +60,32 @@ export class Brush extends Tool {
 
     if (this.mouseDown) {
       if (event instanceof TouchEvent) {
-        this.draw(
-          event.touches[0].pageX - target.offsetLeft,
-          event.touches[0].pageY - target.offsetTop
-        );
+        // this.draw(
+        //   event.touches[0].pageX - target.offsetLeft,
+        //   event.touches[0].pageY - target.offsetTop
+        // );
       } else {
-        this.draw(
-          event.pageX - target.offsetLeft,
-          event.pageY - target.offsetTop
+        // this.draw(
+        //   event.pageX - target.offsetLeft,
+        //   event.pageY - target.offsetTop
+        // );
+        this.socket.send(
+          JSON.stringify({
+            method: 'draw',
+            id: this.id,
+            figure: {
+              type: 'brush',
+              x: event.pageX - target.offsetLeft,
+              y: event.pageY - target.offsetTop,
+            },
+          })
         );
       }
     }
   }
 
-  draw(x: number, y: number) {
-    this.ctx.lineTo(x, y);
-    this.ctx.stroke();
+  static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
+    ctx.lineTo(x, y);
+    ctx.stroke();
   }
 }

@@ -1,12 +1,20 @@
 import { observer } from 'mobx-react-lite';
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { socket } from '../api';
+import { UrlParams } from '../interfaces';
 import authModalState from '../store/authModalState';
 import canvasState from '../store/canvasState';
+import socketState from '../store/sessionState';
+import toolState from '../store/toolState';
 import '../styles/authModal.scss';
+import { Brush } from '../tools/Brush';
+import { Rect } from '../tools/Rect';
 import { Button } from './Button';
 
 export const AuthModal: FC = observer(() => {
   const [inputValue, setInputValue] = useState('');
+  const params = useParams<UrlParams>();
 
   const handleFormSubmit = (event: MouseEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -15,6 +23,50 @@ export const AuthModal: FC = observer(() => {
       canvasState.setUsername(inputValue);
 
       authModalState.setActive(false);
+
+      socketState.setSessionID(params.id);
+      toolState.setTool(new Brush(canvasState.canvas, socket, params.id));
+
+      socket.send(
+        JSON.stringify({
+          method: 'connect',
+          id: params.id,
+          username: canvasState.username,
+        })
+      );
+
+      socket.onmessage = (event: MessageEvent) => {
+        const message = JSON.parse(event.data);
+
+        switch (message.method) {
+          case 'connect':
+            console.log(`Пользователь ${message.username} подключился`);
+            break;
+          case 'draw':
+            handleDraw(message);
+            break;
+        }
+      };
+    }
+  };
+
+  const handleDraw = (message: any) => {
+    const figure = message.figure;
+    const ctx = canvasState.canvas.getContext('2d');
+
+    if (ctx) {
+      switch (figure.type) {
+        case 'brush':
+          Brush.draw(ctx, figure.x, figure.y);
+          break;
+        case 'rect':
+          Rect.staticDraw(ctx, figure.x, figure.y, figure.width, figure.height, figure.color);
+
+          break;
+        case 'finish':
+          ctx.beginPath();
+          break;
+      }
     }
   };
 
