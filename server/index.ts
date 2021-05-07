@@ -1,9 +1,10 @@
-require('dotenv').config();
+import { ParsedMessage } from './interfaces';
+import { Request, Response } from 'express';
+import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
 
 const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
 const app = express();
 const WSServer = require('express-ws')(app);
 const aWss = WSServer.getWss();
@@ -11,30 +12,32 @@ const aWss = WSServer.getWss();
 app.use(cors());
 app.use(express.json());
 
+require('dotenv').config();
+
 const { HOST, PORT } = process.env;
 
-app.ws('/', (webSocket: any, request: any) => {
-  webSocket.on('message', (message: any) => {
-    message = JSON.parse(message);
+app.ws('/', (webSocket: any, request: Request) => {
+  webSocket.on('message', (message: string) => {
+    const parsedMessage: ParsedMessage = JSON.parse(message);
 
-    switch (message.method) {
+    switch (parsedMessage.method) {
       case 'connect':
-        handleConnection(webSocket, message);
+        handleConnection(webSocket, parsedMessage);
         break;
       case 'draw':
-        broadcastConnection(webSocket, message);
+        broadcastConnection(webSocket, parsedMessage);
         break;
     }
   });
 });
 
-const handleConnection = (webSocket: any, message: any) => {
+const handleConnection = (webSocket: any, message: ParsedMessage) => {
   webSocket.id = message.id;
 
   broadcastConnection(webSocket, message);
 };
 
-const broadcastConnection = (webSocket: any, message: any) => {
+const broadcastConnection = (webSocket: any, message: ParsedMessage) => {
   aWss.clients.forEach((client: any) => {
     if (client.id === message.id) {
       client.send(JSON.stringify(message));
@@ -42,12 +45,12 @@ const broadcastConnection = (webSocket: any, message: any) => {
   });
 };
 
-app.post('/image', (request: any, response: any) => {
+app.post('/image', (request: Request, response: Response) => {
   try {
     const data = request.body.image.replace('data:image/png;base64,', '');
 
     fs.writeFileSync(
-      path.resolve(__dirname, 'images', `${Object.keys(request.query)[0]}.jpg`),
+      path.resolve(__dirname, 'images', `${request.query.id}.jpg`),
       data,
       'base64'
     );
@@ -59,12 +62,12 @@ app.post('/image', (request: any, response: any) => {
     return response.status(500).json('error');
   }
 });
-app.get('/image', (request: any, response: any) => {
+app.get('/image', (request: Request, response: Response) => {
   try {
     const file = fs.readFileSync(
-      path.resolve(__dirname, 'images', `${Object.keys(request.query)[0]}.jpg`)
+      path.resolve(__dirname, 'images', `${request.query.id}.jpg`)
     );
-    const data = `data:image/png;base64,${file.toString('base64')}`;
+    const data = 'data:image/png;base64,' + file.toString('base64');
 
     return response.json(data);
   } catch (error) {

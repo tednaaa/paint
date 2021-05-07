@@ -1,4 +1,4 @@
-import { Tool } from './Tool';
+import { Tool } from '.';
 
 export class Brush extends Tool {
   mouseDown = false;

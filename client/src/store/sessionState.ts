@@ -12,4 +12,4 @@ class SessionState {
   }
 }
 
-export default new SessionState();
+export const sessionState = new SessionState();

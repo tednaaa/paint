@@ -6,8 +6,8 @@ export class Tool {
 
   constructor(canvas: HTMLCanvasElement, socket: any, id: string) {
     this.canvas = canvas;
-    this.socket = socket
-    this.id = id
+    this.socket = socket;
+    this.id = id;
 
     this.ctx = canvas.getContext('2d')!;
 

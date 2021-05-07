@@ -52,4 +52,4 @@ class CanvasState {
   }
 }
 
-export default new CanvasState();
+export const canvasState = new CanvasState();

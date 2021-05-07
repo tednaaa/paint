@@ -3,14 +3,10 @@ import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { socket } from '../api';
 import { UrlParams } from '../interfaces';
-import authModalState from '../store/authModalState';
-import canvasState from '../store/canvasState';
-import socketState from '../store/sessionState';
-import toolState from '../store/toolState';
+import { Brush, Rect } from '../tools';
+import { authModalState, canvasState, sessionState, toolState } from '../store';
+import { Button } from '.';
 import '../styles/authModal.scss';
-import { Brush } from '../tools/Brush';
-import { Rect } from '../tools/Rect';
-import { Button } from './Button';
 
 export const AuthModal: FC = observer(() => {
   const [inputValue, setInputValue] = useState('');
@@ -24,7 +20,7 @@ export const AuthModal: FC = observer(() => {
 
       authModalState.setActive(false);
 
-      socketState.setSessionID(params.id);
+      sessionState.setSessionID(params.id);
       toolState.setTool(new Brush(canvasState.canvas, socket, params.id));
 
       socket.send(
@@ -60,7 +56,14 @@ export const AuthModal: FC = observer(() => {
           Brush.draw(ctx, figure.x, figure.y);
           break;
         case 'rect':
-          Rect.staticDraw(ctx, figure.x, figure.y, figure.width, figure.height, figure.color);
+          Rect.staticDraw(
+            ctx,
+            figure.x,
+            figure.y,
+            figure.width,
+            figure.height,
+            figure.color
+          );
 
           break;
         case 'finish':

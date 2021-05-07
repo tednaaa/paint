@@ -3,10 +3,9 @@ import { observer } from 'mobx-react-lite';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 import { REACT_APP_HOST, REACT_APP_PORT } from '../api';
-import { useCanvasSize } from '../hooks/useCanvasSize';
+import { useCanvasSize } from '../hooks';
 import { UrlParams } from '../interfaces';
-import authModalState from '../store/authModalState';
-import canvasState from '../store/canvasState';
+import { authModalState, canvasState } from '../store';
 import '../styles/canvas.scss';
 
 export const Canvas: FC = observer(() => {
@@ -17,12 +16,13 @@ export const Canvas: FC = observer(() => {
     if (canvasRef.current) {
       canvasState.pushToUndo(canvasRef.current.toDataURL());
 
-      console.log('foo');
-
       axios
-        .post(`http://${REACT_APP_HOST}:${REACT_APP_PORT}/image?${params.id}`, {
-          image: canvasRef.current.toDataURL(),
-        })
+        .post(
+          `http://${REACT_APP_HOST}:${REACT_APP_PORT}/image?id=${params.id}`,
+          {
+            image: canvasRef.current.toDataURL(),
+          }
+        )
         .then((response) => console.log(response.data))
         .catch((error) => console.log(error));
     }
@@ -38,7 +38,7 @@ export const Canvas: FC = observer(() => {
       canvasState.setCanvas(canvas);
 
       axios
-        .get(`http://${REACT_APP_HOST}:${REACT_APP_PORT}/image?${params.id}`)
+        .get(`http://${REACT_APP_HOST}:${REACT_APP_PORT}/image?id=${params.id}`)
         .then((response) => {
           const image = new Image();
 
@@ -51,7 +51,7 @@ export const Canvas: FC = observer(() => {
         })
         .catch((error) => console.log(error));
     }
-  }, []);
+  }, [params.id]);
 
   return (
     <div className={`canvas ${!authModalState.isActive ? 'canvas--show' : ''}`}>

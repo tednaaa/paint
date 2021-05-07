@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import toolState from '../store/toolState';
+import { toolState } from '../store';
+import { validateInputLineWidth } from '../utils';
 import '../styles/settingBar.scss';
-import { validateInputLineWidth } from '../utils/validateInputLineWidth';
 
 export const SettingBar: FC = () => {
   const [inputValue, setInputValue] = useState(1);

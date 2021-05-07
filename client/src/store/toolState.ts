@@ -31,4 +31,4 @@ class ToolState {
   }
 }
 
-export default new ToolState();
+export const toolState = new ToolState();

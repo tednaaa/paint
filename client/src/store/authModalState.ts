@@ -12,4 +12,4 @@ class AuthModalState {
   }
 }
 
-export default new AuthModalState();
+export const authModalState = new AuthModalState();

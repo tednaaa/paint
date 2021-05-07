@@ -1,9 +1,6 @@
 import { FC } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { AuthModal } from './components/AuthModal';
-import { Canvas } from './components/Canvas';
-import { SettingBar } from './components/SettingBar';
-import { ToolBar } from './components/ToolBar';
+import { AuthModal, Canvas, SettingBar, ToolBar } from './components';
 
 export const App: FC = () => {
   return (

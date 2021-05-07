@@ -1,16 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { Tool, Brush, Rect, Circle, Eraser, Line } from '../tools';
+import { canvasState, sessionState, toolState } from '../store';
 import { socket } from '../api';
-import canvasState from '../store/canvasState';
-import sessionState from '../store/sessionState';
-import toolState from '../store/toolState';
+import { Burger } from '.';
 import '../styles/toolBar.scss';
-import { Brush } from '../tools/Brush';
-import { Circle } from '../tools/Circle';
-import { Eraser } from '../tools/Eraser';
-import { Line } from '../tools/Line';
-import { Rect } from '../tools/Rect';
-import { Tool } from '../tools/Tool';
-import { Burger } from './Burger';
 
 export const ToolBar: FC = () => {
   const [isBurgerActive, setBurgerActive] = useState(false);
