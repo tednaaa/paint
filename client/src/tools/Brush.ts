@@ -77,6 +77,7 @@ export class Brush extends Tool {
               type: 'brush',
               x: event.pageX - target.offsetLeft,
               y: event.pageY - target.offsetTop,
+              color: this.ctx.strokeStyle,
             },
           })
         );
@@ -84,7 +85,13 @@ export class Brush extends Tool {
     }
   }
 
-  static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
+  static draw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    color: string
+  ) {
+    ctx.strokeStyle = color;
     ctx.lineTo(x, y);
     ctx.stroke();
   }

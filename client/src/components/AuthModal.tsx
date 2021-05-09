@@ -53,7 +53,9 @@ export const AuthModal: FC = observer(() => {
     if (ctx) {
       switch (figure.type) {
         case 'brush':
-          Brush.draw(ctx, figure.x, figure.y);
+          console.log(canvasState.color);
+
+          Brush.draw(ctx, figure.x, figure.y, figure.color);
           break;
         case 'rect':
           Rect.staticDraw(

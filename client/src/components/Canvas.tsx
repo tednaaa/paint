@@ -23,7 +23,6 @@ export const Canvas: FC = observer(() => {
             image: canvasRef.current.toDataURL(),
           }
         )
-        .then((response) => console.log(response.data))
         .catch((error) => console.log(error));
     }
   };

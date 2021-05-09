@@ -1,86 +1,116 @@
 import { Tool } from '.';
 
-export class Circle extends Tool {}
-//   mouseDown = false;
-//   startX: number = 0;
-//   startY: number = 0;
-//   saved: string = '';
+export class Circle extends Tool {
+  mouseDown = false;
+  startX: number = 0;
+  startY: number = 0;
+  radius: number = 0;
+  saved: string = '';
+  color: string = '';
 
-//   constructor(canvas: HTMLCanvasElement) {
-//     super(canvas);
+  constructor(canvas: HTMLCanvasElement, socket: any, id: string) {
+    super(canvas, socket, id);
 
-//     this.listen();
-//   }
+    this.listen();
+  }
 
-//   listen() {
-//     this.canvas.onmouseup = this.handleMouseUp.bind(this);
-//     this.canvas.onmousedown = this.handleMouseDown.bind(this);
-//     this.canvas.onmousemove = this.handleMouseMove.bind(this);
+  listen() {
+    this.canvas.onmouseup = this.handleMouseUp.bind(this);
+    this.canvas.onmousedown = this.handleMouseDown.bind(this);
+    this.canvas.onmousemove = this.handleMouseMove.bind(this);
 
-//     this.canvas.ontouchend = this.handleMouseUp.bind(this);
-//     this.canvas.ontouchstart = this.handleMouseDown.bind(this);
-//     this.canvas.ontouchmove = this.handleMouseMove.bind(this);
-//   }
+    this.canvas.ontouchend = this.handleMouseUp.bind(this);
+    this.canvas.ontouchstart = this.handleMouseDown.bind(this);
+    this.canvas.ontouchmove = this.handleMouseMove.bind(this);
+  }
 
-//   handleMouseUp() {
-//     this.mouseDown = false;
-//   }
+  handleMouseUp() {
+    this.mouseDown = false;
 
-//   handleMouseDown(event: MouseEvent | TouchEvent) {
-//     const target = event.target as HTMLCanvasElement;
+    this.socket.send(
+      JSON.stringify({
+        method: 'draw',
+        id: this.id,
+        figure: {
+          type: 'rect',
+          x: this.startX,
+          y: this.startY,
+          radius: this.radius,
+          color: this.ctx.fillStyle,
+        },
+      })
+    );
+  }
 
-//     if (event instanceof TouchEvent) {
-//       this.startX = event.touches[0].pageX - target.offsetLeft;
-//       this.startY = event.touches[0].pageY - target.offsetTop;
-//     } else {
-//       this.startX = event.pageX - target.offsetLeft;
-//       this.startY = event.pageY - target.offsetTop;
-//     }
+  handleMouseDown(event: MouseEvent | TouchEvent) {
+    const target = event.target as HTMLCanvasElement;
 
-//     this.saved = this.canvas.toDataURL();
-//     this.mouseDown = true;
+    if (event instanceof TouchEvent) {
+      this.startX = event.touches[0].pageX - target.offsetLeft;
+      this.startY = event.touches[0].pageY - target.offsetTop;
+    } else {
+      this.startX = event.pageX - target.offsetLeft;
+      this.startY = event.pageY - target.offsetTop;
+    }
 
-//     this.ctx.beginPath();
-//   }
+    this.saved = this.canvas.toDataURL();
+    this.mouseDown = true;
 
-//   handleMouseMove(event: MouseEvent | TouchEvent) {
-//     const target = event.target as HTMLCanvasElement;
+    this.ctx.beginPath();
+  }
 
-//     event.preventDefault();
+  handleMouseMove(event: MouseEvent | TouchEvent) {
+    const target = event.target as HTMLCanvasElement;
 
-//     if (this.mouseDown) {
-//       if (event instanceof TouchEvent) {
-//         const currentX = event.touches[0].pageX - target.offsetLeft;
-//         const currentY = event.touches[0].pageY - target.offsetTop;
+    event.preventDefault();
 
-//         const width = currentX - this.startX;
-//         const height = currentY - this.startY;
-//         const radius = Math.sqrt(width ** 2 + height ** 2);
+    if (this.mouseDown) {
+      if (event instanceof TouchEvent) {
+        const currentX = event.touches[0].pageX - target.offsetLeft;
+        const currentY = event.touches[0].pageY - target.offsetTop;
 
-//         this.draw(this.startX, this.startY, radius);
-//       } else {
-//         const currentX = event.pageX - target.offsetLeft;
-//         const currentY = event.pageY - target.offsetTop;
+        const width = currentX - this.startX;
+        const height = currentY - this.startY;
 
-//         const width = currentX - this.startX;
-//         const height = currentY - this.startY;
-//         const radius = Math.sqrt(width ** 2 + height ** 2);
+        this.radius = Math.sqrt(width ** 2 + height ** 2);
 
-//         this.draw(this.startX, this.startY, radius);
-//       }
-//     }
-//   }
+        this.draw(this.startX, this.startY, this.radius);
+      } else {
+        const currentX = event.pageX - target.offsetLeft;
+        const currentY = event.pageY - target.offsetTop;
 
-//   draw(x: number, y: number, radius: number) {
-//     const image = new Image();
+        const width = currentX - this.startX;
+        const height = currentY - this.startY;
+        this.radius = Math.sqrt(width ** 2 + height ** 2);
 
-//     image.src = this.saved;
-//     image.onload = () => {
-//       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-//       this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
-//       this.ctx.beginPath();
-//       this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
-//       this.ctx.fill();
-//     };
-//   }
-// }
+        this.draw(this.startX, this.startY, this.radius);
+      }
+    }
+  }
+
+  draw(x: number, y: number, radius: number) {
+    const image = new Image();
+
+    image.src = this.saved;
+    image.onload = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      this.ctx.fill();
+    };
+  }
+
+  static staticDraw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    radius: number,
+    color: string
+  ) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+}

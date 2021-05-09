@@ -10,7 +10,8 @@ const WSServer = require('express-ws')(app);
 const aWss = WSServer.getWss();
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb' }));
 
 require('dotenv').config();
 
@@ -48,6 +49,8 @@ const broadcastConnection = (webSocket: any, message: ParsedMessage) => {
 app.post('/image', (request: Request, response: Response) => {
   try {
     const data = request.body.image.replace('data:image/png;base64,', '');
+
+    console.log(data.length);
 
     fs.writeFileSync(
       path.resolve(__dirname, 'images', `${request.query.id}.jpg`),

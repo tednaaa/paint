@@ -8,6 +8,8 @@ export interface ParsedMessage {
     y: number;
     width: number;
     height: number;
+    radius: number;
+    lineWidth: number;
     color: string;
   };
 }

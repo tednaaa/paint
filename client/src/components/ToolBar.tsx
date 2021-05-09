@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Tool, Brush, Rect, Circle, Eraser, Line } from '../tools';
 import { canvasState, sessionState, toolState } from '../store';
 import { socket } from '../api';
@@ -7,20 +7,15 @@ import '../styles/toolBar.scss';
 
 export const ToolBar: FC = () => {
   const [isBurgerActive, setBurgerActive] = useState(false);
-  const [color, setColor] = useState('#000');
 
   const setTool = (tool: Tool) => {
     toolState.setTool(tool);
 
-    toolState.setStrokeColor(color);
+    toolState.setStrokeColor(canvasState.color);
+    toolState.setFillColor(canvasState.color);
 
     setBurgerActive(false);
   };
-
-  useEffect(() => {
-    toolState.setFillColor(color);
-    toolState.setStrokeColor(color);
-  }, [color]);
 
   const download = () => {
     const dataUrl = canvasState.canvas.toDataURL();
@@ -77,7 +72,7 @@ export const ToolBar: FC = () => {
         <input
           className="toolbar-item"
           type="color"
-          onChange={(event) => setColor(event.currentTarget.value)}
+          onChange={(event) => canvasState.setColor(event.currentTarget.value)}
         />
       </div>
       <div className="toolbar__right">
