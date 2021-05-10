@@ -6,10 +6,9 @@ export class Rect extends Tool {
   startY: number = 0;
   width: number = 0;
   height: number = 0;
-  color: string = '';
   saved: string = '';
 
-  constructor(canvas: HTMLCanvasElement, socket: any, id: string) {
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
     super(canvas, socket, id);
 
     this.listen();
@@ -70,18 +69,18 @@ export class Rect extends Tool {
       if (event instanceof TouchEvent) {
         let currentX = event.touches[0].pageX - target.offsetLeft;
         let currentY = event.touches[0].pageY - target.offsetTop;
+
         this.width = currentX - this.startX;
         this.height = currentY - this.startY;
-
-        this.draw(this.startX, this.startY, this.width, this.height);
       } else {
         let currentX = event.pageX - target.offsetLeft;
         let currentY = event.pageY - target.offsetTop;
+
         this.width = currentX - this.startX;
         this.height = currentY - this.startY;
-
-        this.draw(this.startX, this.startY, this.width, this.height);
       }
+
+      this.draw(this.startX, this.startY, this.width, this.height);
     }
   }
 

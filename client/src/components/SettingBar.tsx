@@ -9,12 +9,12 @@ export const SettingBar: FC = () => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const lineWidth = parseInt(event.currentTarget.value);
 
-    validateInputLineWidth(lineWidth, 1, 50, () => setInputValue(lineWidth));
-  };
+    validateInputLineWidth(lineWidth, 1, 50, () => {
+      setInputValue(lineWidth);
 
-  useEffect(() => {
-    toolState.setLineWidth(inputValue);
-  }, [inputValue]);
+      toolState.setLineWidth(inputValue);
+    });
+  };
 
   return (
     <div className="setting-bar">

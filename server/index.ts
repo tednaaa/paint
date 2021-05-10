@@ -50,8 +50,6 @@ app.post('/image', (request: Request, response: Response) => {
   try {
     const data = request.body.image.replace('data:image/png;base64,', '');
 
-    console.log(data.length);
-
     fs.writeFileSync(
       path.resolve(__dirname, 'images', `${request.query.id}.jpg`),
       data,

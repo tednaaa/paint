@@ -3,7 +3,7 @@ import { Tool } from '.';
 export class Brush extends Tool {
   mouseDown = false;
 
-  constructor(canvas: HTMLCanvasElement, socket: any, id: string) {
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
     super(canvas, socket, id);
 
     this.listen();
@@ -60,15 +60,20 @@ export class Brush extends Tool {
 
     if (this.mouseDown) {
       if (event instanceof TouchEvent) {
-        // this.draw(
-        //   event.touches[0].pageX - target.offsetLeft,
-        //   event.touches[0].pageY - target.offsetTop
-        // );
+        this.socket.send(
+          JSON.stringify({
+            method: 'draw',
+            id: this.id,
+            figure: {
+              type: 'brush',
+              x: event.touches[0].pageX - target.offsetLeft,
+              y: event.touches[0].pageY - target.offsetTop,
+              color: this.ctx.strokeStyle,
+              lineWidth: this.ctx.lineWidth,
+            },
+          })
+        );
       } else {
-        // this.draw(
-        //   event.pageX - target.offsetLeft,
-        //   event.pageY - target.offsetTop
-        // );
         this.socket.send(
           JSON.stringify({
             method: 'draw',
@@ -78,6 +83,7 @@ export class Brush extends Tool {
               x: event.pageX - target.offsetLeft,
               y: event.pageY - target.offsetTop,
               color: this.ctx.strokeStyle,
+              lineWidth: this.ctx.lineWidth,
             },
           })
         );
@@ -89,9 +95,12 @@ export class Brush extends Tool {
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
-    color: string
+    color: string,
+    lineWidth: number
   ) {
     ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+
     ctx.lineTo(x, y);
     ctx.stroke();
   }

@@ -8,7 +8,7 @@ export class Circle extends Tool {
   saved: string = '';
   color: string = '';
 
-  constructor(canvas: HTMLCanvasElement, socket: any, id: string) {
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
     super(canvas, socket, id);
 
     this.listen();
@@ -32,7 +32,7 @@ export class Circle extends Tool {
         method: 'draw',
         id: this.id,
         figure: {
-          type: 'rect',
+          type: 'circle',
           x: this.startX,
           y: this.startY,
           radius: this.radius,
@@ -73,18 +73,17 @@ export class Circle extends Tool {
         const height = currentY - this.startY;
 
         this.radius = Math.sqrt(width ** 2 + height ** 2);
-
-        this.draw(this.startX, this.startY, this.radius);
       } else {
         const currentX = event.pageX - target.offsetLeft;
         const currentY = event.pageY - target.offsetTop;
 
         const width = currentX - this.startX;
         const height = currentY - this.startY;
-        this.radius = Math.sqrt(width ** 2 + height ** 2);
 
-        this.draw(this.startX, this.startY, this.radius);
+        this.radius = Math.sqrt(width ** 2 + height ** 2);
       }
+
+      this.draw(this.startX, this.startY, this.radius);
     }
   }
 

@@ -2,8 +2,8 @@ import { observer } from 'mobx-react-lite';
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { socket } from '../api';
-import { UrlParams } from '../interfaces';
-import { Brush, Rect } from '../tools';
+import { ParsedMessage, UrlParams } from '../interfaces';
+import { Brush, Circle, Eraser, Rect } from '../tools';
 import { authModalState, canvasState, sessionState, toolState } from '../store';
 import { Button } from '.';
 import '../styles/authModal.scss';
@@ -32,30 +32,28 @@ export const AuthModal: FC = observer(() => {
       );
 
       socket.onmessage = (event: MessageEvent) => {
-        const message = JSON.parse(event.data);
+        const parsedMessage: ParsedMessage = JSON.parse(event.data);
 
-        switch (message.method) {
+        switch (parsedMessage.method) {
           case 'connect':
-            console.log(`Пользователь ${message.username} подключился`);
+            console.log(`Пользователь ${parsedMessage.username} подключился`);
             break;
           case 'draw':
-            handleDraw(message);
+            handleDraw(parsedMessage);
             break;
         }
       };
     }
   };
 
-  const handleDraw = (message: any) => {
+  const handleDraw = (message: ParsedMessage) => {
     const figure = message.figure;
     const ctx = canvasState.canvas.getContext('2d');
 
     if (ctx) {
       switch (figure.type) {
         case 'brush':
-          console.log(canvasState.color);
-
-          Brush.draw(ctx, figure.x, figure.y, figure.color);
+          Brush.draw(ctx, figure.x, figure.y, figure.color, figure.lineWidth);
           break;
         case 'rect':
           Rect.staticDraw(
@@ -66,7 +64,18 @@ export const AuthModal: FC = observer(() => {
             figure.height,
             figure.color
           );
-
+          break;
+        case 'circle':
+          Circle.staticDraw(
+            ctx,
+            figure.x,
+            figure.y,
+            figure.radius,
+            figure.color
+          );
+          break;
+        case 'eraser':
+          Eraser.draw(ctx, figure.x, figure.y, figure.lineWidth);
           break;
         case 'finish':
           ctx.beginPath();

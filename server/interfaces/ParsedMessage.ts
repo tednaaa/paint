@@ -3,11 +3,13 @@ export interface ParsedMessage {
   id: string;
   username: string;
   figure: {
-    type: 'brush' | 'rect' | 'finish';
+    type: 'brush' | 'rect' | 'circle' | 'eraser' | 'finish';
     x: number;
     y: number;
     width: number;
     height: number;
+    radius: number;
+    lineWidth: number;
     color: string;
   };
 }

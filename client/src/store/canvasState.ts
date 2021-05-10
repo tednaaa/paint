@@ -6,14 +6,9 @@ class CanvasState {
   undoList: string[] = [];
   redoList: string[] = [];
   username: string = '';
-  color: string = '#000';
 
   constructor() {
     makeAutoObservable(this);
-  }
-
-  setColor(color: string) {
-    this.color = color;
   }
 
   setUsername(username: string) {

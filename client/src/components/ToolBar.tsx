@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Tool, Brush, Rect, Circle, Eraser, Line } from '../tools';
 import { canvasState, sessionState, toolState } from '../store';
 import { socket } from '../api';
@@ -10,9 +10,6 @@ export const ToolBar: FC = () => {
 
   const setTool = (tool: Tool) => {
     toolState.setTool(tool);
-
-    toolState.setStrokeColor(canvasState.color);
-    toolState.setFillColor(canvasState.color);
 
     setBurgerActive(false);
   };
@@ -26,6 +23,13 @@ export const ToolBar: FC = () => {
     document.body.appendChild(link);
     link.click();
     link.remove();
+  };
+
+  const setColor = (event: ChangeEvent<HTMLInputElement>) => {
+    const color = event.currentTarget.value;
+
+    toolState.setStrokeColor(color);
+    toolState.setFillColor(color);
   };
 
   return (
@@ -69,11 +73,7 @@ export const ToolBar: FC = () => {
             setTool(new Line(canvasState.canvas, socket, sessionState.id))
           }
         ></button>
-        <input
-          className="toolbar-item"
-          type="color"
-          onChange={(event) => canvasState.setColor(event.currentTarget.value)}
-        />
+        <input className="toolbar-item" type="color" onChange={setColor} />
       </div>
       <div className="toolbar__right">
         <button
