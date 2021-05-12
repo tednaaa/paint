@@ -1,80 +1,133 @@
 import { Tool } from '.';
 
-export class Line extends Tool {}
-//   mouseDown = false;
-//   currentX: number = 0;
-//   currentY: number = 0;
-//   saved: string = '';
+export class Line extends Tool {
+  mouseDown = false;
+  currentX: number = 0;
+  currentY: number = 0;
+  saved: string = '';
 
-//   constructor(canvas: HTMLCanvasElement) {
-//     super(canvas);
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
+    super(canvas, socket, id);
 
-//     this.listen();
-//   }
+    this.listen();
+  }
 
-//   listen() {
-//     this.canvas.onmouseup = this.handleMouseUp.bind(this);
-//     this.canvas.onmousedown = this.handleMouseDown.bind(this);
-//     this.canvas.onmousemove = this.handleMouseMove.bind(this);
+  listen() {
+    this.canvas.onmouseup = this.handleMouseUp.bind(this);
+    this.canvas.onmousedown = this.handleMouseDown.bind(this);
+    this.canvas.onmousemove = this.handleMouseMove.bind(this);
 
-//     this.canvas.ontouchend = this.handleMouseUp.bind(this);
-//     this.canvas.ontouchstart = this.handleMouseDown.bind(this);
-//     this.canvas.ontouchmove = this.handleMouseMove.bind(this);
-//   }
+    this.canvas.ontouchend = this.handleMouseUp.bind(this);
+    this.canvas.ontouchstart = this.handleMouseDown.bind(this);
+    this.canvas.ontouchmove = this.handleMouseMove.bind(this);
+  }
 
-//   handleMouseUp() {
-//     this.mouseDown = false;
-//   }
+  handleMouseUp(event: MouseEvent | TouchEvent) {
+    const target = event.target as HTMLCanvasElement;
 
-//   handleMouseDown(event: MouseEvent | TouchEvent) {
-//     const target = event.target as HTMLCanvasElement;
+    this.mouseDown = false;
 
-//     if (event instanceof TouchEvent) {
-//       this.currentX = event.touches[0].pageX - target.offsetLeft;
-//       this.currentY = event.touches[0].pageY - target.offsetTop;
-//     } else {
-//       this.currentX = event.pageX - target.offsetLeft;
-//       this.currentY = event.pageY - target.offsetTop;
-//     }
+    if (event instanceof TouchEvent) {
+      this.socket.send(
+        JSON.stringify({
+          method: 'draw',
+          id: this.id,
+          figure: {
+            type: 'line',
+            x: event.touches[0].pageX - target.offsetLeft,
+            y: event.touches[0].pageY - target.offsetTop,
+            currentX: this.currentX,
+            currentY: this.currentY,
+            color: this.ctx.strokeStyle,
+            lineWidth: this.ctx.lineWidth,
+          },
+        })
+      );
+    } else {
+      this.socket.send(
+        JSON.stringify({
+          method: 'draw',
+          id: this.id,
+          figure: {
+            type: 'line',
+            x: event.pageX - target.offsetLeft,
+            y: event.pageY - target.offsetTop,
+            currentX: this.currentX,
+            currentY: this.currentY,
+            color: this.ctx.strokeStyle,
+            lineWidth: this.ctx.lineWidth,
+          },
+        })
+      );
+    }
+  }
 
-//     this.mouseDown = true;
+  handleMouseDown(event: MouseEvent | TouchEvent) {
+    const target = event.target as HTMLCanvasElement;
 
-//     this.ctx.beginPath();
-//     this.ctx.moveTo(this.currentX, this.currentY);
-//     this.saved = this.canvas.toDataURL();
-//   }
+    if (event instanceof TouchEvent) {
+      this.currentX = event.touches[0].pageX - target.offsetLeft;
+      this.currentY = event.touches[0].pageY - target.offsetTop;
+    } else {
+      this.currentX = event.pageX - target.offsetLeft;
+      this.currentY = event.pageY - target.offsetTop;
+    }
 
-//   handleMouseMove(event: MouseEvent | TouchEvent) {
-//     const target = event.target as HTMLCanvasElement;
+    this.mouseDown = true;
 
-//     event.preventDefault();
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.currentX, this.currentY);
+    this.saved = this.canvas.toDataURL();
+  }
 
-//     if (this.mouseDown) {
-//       if (event instanceof TouchEvent) {
-//         this.draw(
-//           event.touches[0].pageX - target.offsetLeft,
-//           event.touches[0].pageY - target.offsetTop
-//         );
-//       } else {
-//         this.draw(
-//           event.pageX - target.offsetLeft,
-//           event.pageY - target.offsetTop
-//         );
-//       }
-//     }
-//   }
+  handleMouseMove(event: MouseEvent | TouchEvent) {
+    const target = event.target as HTMLCanvasElement;
 
-//   draw(x: number, y: number) {
-//     const image = new Image();
+    event.preventDefault();
 
-//     image.src = this.saved;
-//     image.onload = () => {
-//       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-//       this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
-//       this.ctx.beginPath();
-//       this.ctx.moveTo(this.currentX, this.currentY);
-//       this.ctx.lineTo(x, y);
-//       this.ctx.stroke();
-//     };
-//   }
-// }
+    if (this.mouseDown) {
+      if (event instanceof TouchEvent) {
+        this.draw(
+          event.touches[0].pageX - target.offsetLeft,
+          event.touches[0].pageY - target.offsetTop
+        );
+      } else {
+        this.draw(
+          event.pageX - target.offsetLeft,
+          event.pageY - target.offsetTop
+        );
+      }
+    }
+  }
+
+  draw(x: number, y: number) {
+    const image = new Image();
+
+    image.src = this.saved;
+    image.onload = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.currentX, this.currentY);
+      this.ctx.lineTo(x, y);
+      this.ctx.stroke();
+    };
+  }
+
+  static staticDraw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    currentX: number,
+    currentY: number,
+    color: string,
+    lineWidth: number
+  ) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.beginPath();
+    ctx.moveTo(currentX, currentY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  }
+}

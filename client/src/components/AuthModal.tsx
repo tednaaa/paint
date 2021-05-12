@@ -3,12 +3,15 @@ import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { socket } from '../api';
 import { ParsedMessage, UrlParams } from '../interfaces';
-import { Brush, Circle, Eraser, Rect } from '../tools';
+import { Brush, Circle, Eraser, Line, Rect } from '../tools';
 import { authModalState, canvasState, sessionState, toolState } from '../store';
 import { Button } from '.';
 import '../styles/authModal.scss';
 
 export const AuthModal: FC = observer(() => {
+  const [isShowModalOfConnectedUser, setShowModalOfConnectedUser] =
+    useState(false);
+  const [connectedUsername, setConnectedUsername] = useState('');
   const [inputValue, setInputValue] = useState('');
   const params = useParams<UrlParams>();
 
@@ -36,7 +39,7 @@ export const AuthModal: FC = observer(() => {
 
         switch (parsedMessage.method) {
           case 'connect':
-            console.log(`Пользователь ${parsedMessage.username} подключился`);
+            setConnectedUsername(parsedMessage.username);
             break;
           case 'draw':
             handleDraw(parsedMessage);
@@ -77,6 +80,17 @@ export const AuthModal: FC = observer(() => {
         case 'eraser':
           Eraser.draw(ctx, figure.x, figure.y, figure.lineWidth);
           break;
+        case 'line':
+          Line.staticDraw(
+            ctx,
+            figure.x,
+            figure.y,
+            figure.currentX,
+            figure.currentY,
+            figure.color,
+            figure.lineWidth
+          );
+          break;
         case 'finish':
           ctx.beginPath();
           break;
@@ -86,8 +100,9 @@ export const AuthModal: FC = observer(() => {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const username = event.currentTarget.value;
+    const maxUsernameLength = 20;
 
-    if (username.length <= 20) {
+    if (username.length <= maxUsernameLength) {
       setInputValue(username);
     }
   };
@@ -96,21 +111,38 @@ export const AuthModal: FC = observer(() => {
     authModalState.setActive(true);
   }, []);
 
+  useEffect(() => {
+    setShowModalOfConnectedUser(true);
+
+    setTimeout(() => {
+      setShowModalOfConnectedUser(false);
+    }, 3000);
+  }, [connectedUsername]);
+
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className={`modal ${authModalState.isActive ? 'modal--active' : ''}`}
-    >
-      <label className="modal__label">
-        Write your name
-        <input
-          onChange={handleInputChange}
-          value={inputValue}
-          className="modal__input"
-          type="text"
-        />
-      </label>
-      <Button type="submit" text="Sign in" className="modal__button" />
-    </form>
+    <>
+      <p
+        className={`user-connect-modal ${
+          isShowModalOfConnectedUser ? 'user-connect-modal--active' : ''
+        }`}
+      >
+        {connectedUsername} подключился
+      </p>
+      <form
+        onSubmit={handleFormSubmit}
+        className={`modal ${authModalState.isActive ? 'modal--active' : ''}`}
+      >
+        <label className="modal__label">
+          Write your name
+          <input
+            onChange={handleInputChange}
+            value={inputValue}
+            className="modal__input"
+            type="text"
+          />
+        </label>
+        <Button type="submit" text="Sign in" className="modal__button" />
+      </form>
+    </>
   );
 });

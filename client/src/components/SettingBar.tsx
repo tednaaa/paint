@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { toolState } from '../store';
 import { validateInputLineWidth } from '../utils';
 import '../styles/settingBar.scss';

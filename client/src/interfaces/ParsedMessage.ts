@@ -3,9 +3,11 @@ export interface ParsedMessage {
   id: string;
   username: string;
   figure: {
-    type: 'brush' | 'rect' | 'circle' | 'eraser' | 'finish';
+    type: 'brush' | 'rect' | 'circle' | 'eraser' | 'line' | 'finish';
     x: number;
     y: number;
+    currentX: number;
+    currentY: number;
     width: number;
     height: number;
     radius: number;

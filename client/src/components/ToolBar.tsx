@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { Tool, Brush, Rect, Circle, Eraser, Line } from '../tools';
 import { canvasState, sessionState, toolState } from '../store';
 import { socket } from '../api';
