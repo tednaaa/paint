@@ -1,8 +1,7 @@
-import axios from 'axios';
 import { observer } from 'mobx-react-lite';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { useParams } from 'react-router';
-import { REACT_APP_HOST, REACT_APP_PORT } from '../api';
+import { addCanvasImageOnServer, getCanvasImageFromServer } from '../api';
 import { useCanvasSize } from '../hooks';
 import { UrlParams } from '../interfaces';
 import { authModalState, canvasState } from '../store';
@@ -13,17 +12,11 @@ export const Canvas: FC = observer(() => {
   const params = useParams<UrlParams>();
 
   const handleDrawEnd = () => {
-    if (canvasRef.current) {
-      canvasState.pushToUndo(canvasRef.current.toDataURL());
+    const canvas = canvasRef.current;
 
-      axios
-        .post(
-          `http://${REACT_APP_HOST}:${REACT_APP_PORT}/image?id=${params.id}`,
-          {
-            image: canvasRef.current.toDataURL(),
-          }
-        )
-        .catch((error) => console.log(error));
+    if (canvas) {
+      canvasState.pushToUndo(canvas.toDataURL());
+      addCanvasImageOnServer(canvas, params.id);
     }
   };
 
@@ -36,19 +29,9 @@ export const Canvas: FC = observer(() => {
       useCanvasSize(canvas);
       canvasState.setCanvas(canvas);
 
-      axios
-        .get(`http://${REACT_APP_HOST}:${REACT_APP_PORT}/image?id=${params.id}`)
-        .then((response) => {
-          const image = new Image();
-
-          image.src = response.data;
-          image.onload = () => {
-            ctx?.clearRect(0, 0, canvas.width, canvas.height);
-            ctx?.drawImage(image, 0, 0, canvas.width, canvas.height);
-            ctx?.fill();
-          };
-        })
-        .catch((error) => console.log(error));
+      if (ctx) {
+        getCanvasImageFromServer(canvas, ctx, params.id);
+      }
     }
   }, [params.id]);
 

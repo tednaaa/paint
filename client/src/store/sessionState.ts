@@ -7,7 +7,7 @@ class SessionState {
     makeAutoObservable(this);
   }
 
-  setSessionID(id: string) {
+  setSessionId(id: string) {
     this.id = id;
   }
 }

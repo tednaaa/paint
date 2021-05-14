@@ -1,9 +1,11 @@
+import { FigureType, Method } from '../types';
+
 export interface ParsedMessage {
-  method: 'connect' | 'draw';
+  method: Method;
   id: string;
   username: string;
   figure: {
-    type: 'brush' | 'rect' | 'circle' | 'eraser' | 'line' | 'finish';
+    type: FigureType;
     x: number;
     y: number;
     currentX: number;

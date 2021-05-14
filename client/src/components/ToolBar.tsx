@@ -1,35 +1,30 @@
 import { ChangeEvent, FC, useState } from 'react';
 import { Tool, Brush, Rect, Circle, Eraser, Line } from '../tools';
-import { canvasState, sessionState, toolState } from '../store';
-import { socket } from '../api';
+import { canvasState, toolState } from '../store';
 import { Burger } from '.';
+import {
+  DEFAULT_DRAW_COLOR,
+  downloadCanvasImage,
+  setDrawColor,
+} from '../utils';
 import '../styles/toolBar.scss';
 
 export const ToolBar: FC = () => {
   const [isBurgerActive, setBurgerActive] = useState(false);
+  const [color, setColor] = useState(DEFAULT_DRAW_COLOR);
 
   const setTool = (tool: Tool) => {
     toolState.setTool(tool);
 
+    setDrawColor(color);
     setBurgerActive(false);
   };
 
-  const download = () => {
-    const dataUrl = canvasState.canvas.toDataURL();
+  const handleColorChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const changedColor = event.currentTarget.value;
 
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = sessionState.id + '.jpg';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
-
-  const setColor = (event: ChangeEvent<HTMLInputElement>) => {
-    const color = event.currentTarget.value;
-
-    toolState.setStrokeColor(color);
-    toolState.setFillColor(color);
+    setColor(changedColor);
+    setDrawColor(changedColor);
   };
 
   return (
@@ -45,35 +40,29 @@ export const ToolBar: FC = () => {
       >
         <button
           className="toolbar-item toolbar-item--brush"
-          onClick={() =>
-            setTool(new Brush(canvasState.canvas, socket, sessionState.id))
-          }
+          onClick={() => setTool(new Brush(canvasState.canvas))}
         ></button>
         <button
           className="toolbar-item toolbar-item--rect"
-          onClick={() =>
-            setTool(new Rect(canvasState.canvas, socket, sessionState.id))
-          }
+          onClick={() => setTool(new Rect(canvasState.canvas))}
         ></button>
         <button
           className="toolbar-item toolbar-item--circle"
-          onClick={() =>
-            setTool(new Circle(canvasState.canvas, socket, sessionState.id))
-          }
+          onClick={() => setTool(new Circle(canvasState.canvas))}
         ></button>
         <button
           className="toolbar-item toolbar-item--eraser"
-          onClick={() =>
-            setTool(new Eraser(canvasState.canvas, socket, sessionState.id))
-          }
+          onClick={() => setTool(new Eraser(canvasState.canvas))}
         ></button>
         <button
           className="toolbar-item toolbar-item--line"
-          onClick={() =>
-            setTool(new Line(canvasState.canvas, socket, sessionState.id))
-          }
+          onClick={() => setTool(new Line(canvasState.canvas))}
         ></button>
-        <input className="toolbar-item" type="color" onChange={setColor} />
+        <input
+          className="toolbar-item"
+          type="color"
+          onChange={handleColorChange}
+        />
       </div>
       <div className="toolbar__right">
         <button
@@ -86,7 +75,7 @@ export const ToolBar: FC = () => {
         ></button>
         <button
           className="toolbar-item toolbar-item--save"
-          onClick={download}
+          onClick={downloadCanvasImage}
         ></button>
       </div>
     </div>

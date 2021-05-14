@@ -1,13 +1,16 @@
-import { Tool } from '.';
+import { broadcastDraw } from '../api';
+import { Tool } from './Tool';
 
 export class Line extends Tool {
   mouseDown = false;
+  x: number = 0;
+  y: number = 0;
   currentX: number = 0;
   currentY: number = 0;
   saved: string = '';
 
-  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
-    super(canvas, socket, id);
+  constructor(canvas: HTMLCanvasElement) {
+    super(canvas);
 
     this.listen();
   }
@@ -28,38 +31,21 @@ export class Line extends Tool {
     this.mouseDown = false;
 
     if (event instanceof TouchEvent) {
-      this.socket.send(
-        JSON.stringify({
-          method: 'draw',
-          id: this.id,
-          figure: {
-            type: 'line',
-            x: event.touches[0].pageX - target.offsetLeft,
-            y: event.touches[0].pageY - target.offsetTop,
-            currentX: this.currentX,
-            currentY: this.currentY,
-            color: this.ctx.strokeStyle,
-            lineWidth: this.ctx.lineWidth,
-          },
-        })
-      );
+      this.x = event.touches[0].pageX - target.offsetLeft;
+      this.y = event.touches[0].pageY - target.offsetTop;
     } else {
-      this.socket.send(
-        JSON.stringify({
-          method: 'draw',
-          id: this.id,
-          figure: {
-            type: 'line',
-            x: event.pageX - target.offsetLeft,
-            y: event.pageY - target.offsetTop,
-            currentX: this.currentX,
-            currentY: this.currentY,
-            color: this.ctx.strokeStyle,
-            lineWidth: this.ctx.lineWidth,
-          },
-        })
-      );
+      this.x = event.pageX - target.offsetLeft;
+      this.y = event.pageY - target.offsetTop;
     }
+
+    broadcastDraw({
+      figureType: 'line',
+      ctx: this.ctx,
+      x: this.x,
+      y: this.y,
+      currentX: this.currentX,
+      currentY: this.currentY,
+    });
   }
 
   handleMouseDown(event: MouseEvent | TouchEvent) {

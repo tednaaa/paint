@@ -1,4 +1,5 @@
-import { Tool } from '.';
+import { broadcastDraw } from '../api';
+import { Tool } from './Tool';
 
 export class Rect extends Tool {
   mouseDown = false;
@@ -8,8 +9,8 @@ export class Rect extends Tool {
   height: number = 0;
   saved: string = '';
 
-  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
-    super(canvas, socket, id);
+  constructor(canvas: HTMLCanvasElement) {
+    super(canvas);
 
     this.listen();
   }
@@ -27,20 +28,14 @@ export class Rect extends Tool {
   handleMouseUp() {
     this.mouseDown = false;
 
-    this.socket.send(
-      JSON.stringify({
-        method: 'draw',
-        id: this.id,
-        figure: {
-          type: 'rect',
-          x: this.startX,
-          y: this.startY,
-          width: this.width,
-          height: this.height,
-          color: this.ctx.fillStyle,
-        },
-      })
-    );
+    broadcastDraw({
+      figureType: 'rect',
+      ctx: this.ctx,
+      x: this.startX,
+      y: this.startY,
+      width: this.width,
+      height: this.height,
+    });
   }
 
   handleMouseDown(event: MouseEvent | TouchEvent) {
@@ -67,14 +62,14 @@ export class Rect extends Tool {
 
     if (this.mouseDown) {
       if (event instanceof TouchEvent) {
-        let currentX = event.touches[0].pageX - target.offsetLeft;
-        let currentY = event.touches[0].pageY - target.offsetTop;
+        const currentX = event.touches[0].pageX - target.offsetLeft;
+        const currentY = event.touches[0].pageY - target.offsetTop;
 
         this.width = currentX - this.startX;
         this.height = currentY - this.startY;
       } else {
-        let currentX = event.pageX - target.offsetLeft;
-        let currentY = event.pageY - target.offsetTop;
+        const currentX = event.pageX - target.offsetLeft;
+        const currentY = event.pageY - target.offsetTop;
 
         this.width = currentX - this.startX;
         this.height = currentY - this.startY;

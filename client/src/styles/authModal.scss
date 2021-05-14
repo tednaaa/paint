@@ -31,16 +31,3 @@
   padding: 10px;
   text-align: center;
 }
-
-.user-connect-modal {
-  position: fixed;
-  top: 50px;
-  right: 50px;
-  background: #fbb42f;
-  color: #1f1e1e;
-  display: none;
-}
-
-.user-connect-modal--active {
-  display: block;
-}

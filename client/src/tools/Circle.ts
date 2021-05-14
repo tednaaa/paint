@@ -1,4 +1,5 @@
-import { Tool } from '.';
+import { broadcastDraw } from '../api';
+import { Tool } from './Tool';
 
 export class Circle extends Tool {
   mouseDown = false;
@@ -8,8 +9,8 @@ export class Circle extends Tool {
   saved: string = '';
   color: string = '';
 
-  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
-    super(canvas, socket, id);
+  constructor(canvas: HTMLCanvasElement) {
+    super(canvas);
 
     this.listen();
   }
@@ -27,19 +28,13 @@ export class Circle extends Tool {
   handleMouseUp() {
     this.mouseDown = false;
 
-    this.socket.send(
-      JSON.stringify({
-        method: 'draw',
-        id: this.id,
-        figure: {
-          type: 'circle',
-          x: this.startX,
-          y: this.startY,
-          radius: this.radius,
-          color: this.ctx.fillStyle,
-        },
-      })
-    );
+    broadcastDraw({
+      figureType: 'circle',
+      ctx: this.ctx,
+      x: this.startX,
+      y: this.startY,
+      radius: this.radius,
+    });
   }
 
   handleMouseDown(event: MouseEvent | TouchEvent) {

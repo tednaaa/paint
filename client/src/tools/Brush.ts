@@ -1,10 +1,13 @@
-import { Tool } from '.';
+import { broadcastDraw, broadcastWhenDrawFinished } from '../api';
+import { Tool } from './Tool';
 
 export class Brush extends Tool {
   mouseDown = false;
+  x: number = 0;
+  y: number = 0;
 
-  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
-    super(canvas, socket, id);
+  constructor(canvas: HTMLCanvasElement) {
+    super(canvas);
 
     this.listen();
   }
@@ -21,22 +24,13 @@ export class Brush extends Tool {
 
   handleMouseUp() {
     this.mouseDown = false;
-
-    this.socket.send(
-      JSON.stringify({
-        method: 'draw',
-        id: this.id,
-        figure: {
-          type: 'finish',
-        },
-      })
-    );
   }
 
   handleMouseDown(event: MouseEvent | TouchEvent) {
     const target = event.target as HTMLCanvasElement;
 
     this.mouseDown = true;
+    broadcastWhenDrawFinished();
 
     if (event instanceof TouchEvent) {
       this.ctx.beginPath();
@@ -60,34 +54,19 @@ export class Brush extends Tool {
 
     if (this.mouseDown) {
       if (event instanceof TouchEvent) {
-        this.socket.send(
-          JSON.stringify({
-            method: 'draw',
-            id: this.id,
-            figure: {
-              type: 'brush',
-              x: event.touches[0].pageX - target.offsetLeft,
-              y: event.touches[0].pageY - target.offsetTop,
-              color: this.ctx.strokeStyle,
-              lineWidth: this.ctx.lineWidth,
-            },
-          })
-        );
+        this.x = event.touches[0].pageX - target.offsetLeft;
+        this.y = event.touches[0].pageY - target.offsetTop;
       } else {
-        this.socket.send(
-          JSON.stringify({
-            method: 'draw',
-            id: this.id,
-            figure: {
-              type: 'brush',
-              x: event.pageX - target.offsetLeft,
-              y: event.pageY - target.offsetTop,
-              color: this.ctx.strokeStyle,
-              lineWidth: this.ctx.lineWidth,
-            },
-          })
-        );
+        this.x = event.pageX - target.offsetLeft;
+        this.y = event.pageY - target.offsetTop;
       }
+
+      broadcastDraw({
+        figureType: 'brush',
+        ctx: this.ctx,
+        x: this.x,
+        y: this.y,
+      });
     }
   }
 
