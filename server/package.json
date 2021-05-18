@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "nodemon index.ts",
     "build": "rm -rf build && tsc --project ./ && cp -r images build/images",
-    "start": "node build/index.js",
-    "foo": "npm run build && npm start"
+    "start": "node build/index.js"
   },
   "author": "And",
   "license": "ISC",
