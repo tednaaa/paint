@@ -1,11 +1,18 @@
 import { observer } from 'mobx-react-lite';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { useParams } from 'react-router';
-import { addCanvasImageOnServer, getCanvasImageFromServer } from '../api';
-import { useCanvasSize } from '../hooks';
+import {
+  addCanvasImageOnServer,
+  getCanvasImageFromServer,
+  handleConnectUser,
+  handleDrawUser,
+  socket,
+} from '../api';
 import { UrlParams } from '../interfaces';
-import { authModalState, canvasState } from '../store';
+import { authModalState, canvasState, sessionState, toolState } from '../store';
 import '../styles/canvas.scss';
+import { Brush } from '../tools';
+import { setCanvasSize } from '../utils/setCanvasSize';
 
 export const Canvas: FC = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,8 +33,16 @@ export const Canvas: FC = observer(() => {
     if (canvas) {
       const ctx = canvas.getContext('2d');
 
-      useCanvasSize(canvas);
+      setCanvasSize(canvas);
       canvasState.setCanvas(canvas);
+      authModalState.setActive(false);
+      sessionState.setSessionId(params.id);
+      toolState.setTool(new Brush(canvasState.canvas));
+
+      socket.onopen = () => {
+        handleConnectUser();
+        handleDrawUser();
+      };
 
       if (ctx) {
         getCanvasImageFromServer(canvas, ctx, params.id);
@@ -36,7 +51,7 @@ export const Canvas: FC = observer(() => {
   }, [params.id]);
 
   return (
-    <div className={`canvas ${!authModalState.isActive ? 'canvas--show' : ''}`}>
+    <div className="canvas">
       <canvas
         onMouseUp={handleDrawEnd}
         onTouchEnd={handleDrawEnd}

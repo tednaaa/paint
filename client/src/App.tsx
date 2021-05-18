@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { AuthModal, Canvas, SettingBar, ToolBar } from './components';
+import { Canvas, SettingBar, ToolBar } from './components';
 
 export const App: FC = () => {
   return (
@@ -8,7 +8,6 @@ export const App: FC = () => {
       <div className="app">
         <Switch>
           <Route path="/:id">
-            <AuthModal />
             <ToolBar />
             <SettingBar />
             <Canvas />

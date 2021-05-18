@@ -1,5 +1,6 @@
 import { ParsedMessage } from '../interfaces';
 import { broadcastConnection } from './broadcastConnection';
+import { removeOldestFileFromFolderWhenMaxFilesCountExecuted } from './removeOldestFileFromFolderWhenMaxFilesCountExecuted';
 
 export const handleConnection = (
   webSocket: any,
@@ -8,5 +9,6 @@ export const handleConnection = (
 ) => {
   webSocket.id = message.id;
 
+  removeOldestFileFromFolderWhenMaxFilesCountExecuted('../images', 10);
   broadcastConnection(aWss, message);
 };

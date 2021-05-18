@@ -1,5 +1,5 @@
 export type Method = 'connect' | 'draw';
-export type FigureType =
+export type Figure =
   | 'brush'
   | 'rect'
   | 'circle'

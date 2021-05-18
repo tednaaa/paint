@@ -1,7 +1,7 @@
-import { FigureType } from '../types';
+import { Figure } from '../types';
 
 export interface BroadcastDraw {
-  figureType: FigureType;
+  figureType: Figure;
   ctx: CanvasRenderingContext2D;
   x: number;
   y: number;

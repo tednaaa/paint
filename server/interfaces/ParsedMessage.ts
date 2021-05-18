@@ -1,11 +1,10 @@
-import { FigureType, Method } from '../types';
+import { Figure, Method } from '../types';
 
 export interface ParsedMessage {
   method: Method;
   id: string;
-  username: string;
   figure: {
-    type: FigureType;
+    type: Figure;
     x: number;
     y: number;
     currentX: number;

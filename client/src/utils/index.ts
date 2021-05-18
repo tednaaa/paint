@@ -5,3 +5,4 @@ export { validateInputLineWidth } from './validateInputLineWidth';
 export { handleDrawInCanvas } from './handleDrawInCanvas';
 export { downloadCanvasImage } from './downloadCanvasImage';
 export { setDrawColor } from './setDrawColor';
+export { setCanvasSize } from './setCanvasSize';
