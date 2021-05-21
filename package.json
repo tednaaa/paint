@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/and-bulk/paint/issues"
   },
-  "homepage": "https://github.com/and-bulk/paint#readme"
+  "homepage": "https://github.com/and-bulk/paint#readme",
+  "engines": {
+    "node": "12.x"
+  }
 }
