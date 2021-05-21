@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { imageController } from './controllers';
+import { clientController, imageController } from './controllers';
 
 export const router = Router();
 
-router.post('/image', imageController.saveImage);
-router.get('/image', imageController.getImage);
+router.get('*', clientController.get);
+router.get('/image', imageController.get);
+router.post('/image', imageController.save);

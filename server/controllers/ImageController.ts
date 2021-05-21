@@ -3,7 +3,7 @@ import { ImageRequestBody, ImageRequestQuery } from '../interfaces';
 import { getImage, saveImage } from '../utils';
 
 class ImageController {
-  async saveImage(
+  async save(
     request: Request<null, null, ImageRequestBody, ImageRequestQuery>,
     response: Response
   ) {
@@ -21,7 +21,7 @@ class ImageController {
     }
   }
 
-  async getImage(
+  async get(
     request: Request<null, null, ImageRequestBody, ImageRequestQuery>,
     response: Response
   ) {
