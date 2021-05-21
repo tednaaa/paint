@@ -2,8 +2,8 @@
   "name": "paint",
   "version": "1.0.0",
   "scripts": {
-    "build": "npm run build --prefix client",
-    "start": "npm run build --prefix server && npm start --prefix server"
+    "start": "npm run build --prefix server && npm start --prefix server",
+    "build": "npm run build --prefix client && npm run start"
   },
   "repository": {
     "type": "git",
