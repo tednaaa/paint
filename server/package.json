@@ -4,7 +4,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "nodemon index.ts",
-    "build": "npm ci && rm -rf build && tsc --project ./ && cp -r images build/images",
+    "build": "npm ci && rm -rf build && npx tsc --project ./ && cp -r images build/images",
     "start": "node build/index.js"
   },
   "author": "And",
