@@ -17,5 +17,8 @@
   "homepage": "https://github.com/and-bulk/paint#readme",
   "engines": {
     "node": "12.x"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
   }
 }
