@@ -6,7 +6,7 @@ export const addCanvasImageOnServer = (
   sessionId: string
 ) => {
   axios
-    .post(`http://${REACT_APP_HOST}:${REACT_APP_PORT}/image?id=${sessionId}`, {
+    .post(`http://${REACT_APP_HOST}/image?id=${sessionId}`, {
       image: canvas.toDataURL(),
     })
     .catch((error) => console.log(error));
