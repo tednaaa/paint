@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { REACT_APP_HOST, REACT_APP_PORT } from '../utils';
+import { HOST as REACT_APP_HOST, PORT as REACT_APP_PORT } from '../utils';
 
 export const getCanvasImageFromServer = (
   canvas: HTMLCanvasElement,
