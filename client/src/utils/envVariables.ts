@@ -1,1 +1,4 @@
-export const { REACT_APP_HOST, REACT_APP_PORT } = process.env;
+require('dotenv').config();
+
+
+export const { HOST = "and-paint.herokuapp.com", PORT } = process.env;
