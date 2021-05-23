@@ -1,11 +1,19 @@
 # Init project
 
-## In client dir
+## In main dir
 
 > Set env vars and install packages
 
 ```
 cp .env.example .env
+npm ci
+```
+
+## In client dir
+
+> Install packages
+
+```
 npm ci
 ```
 
@@ -29,20 +37,13 @@ npm run test
 
 ## In server dir
 
-> Set env vars and install packages
-
-```
-cp .env.example .env
-npm ci
-```
-
 > Compiles and hot-reloads for development
 
 ```
 npm run dev
 ```
 
-> Compiles and minifies for production
+> Compiles for production
 
 ```
 npm run build

@@ -1,3 +1,3 @@
-import { HOST as REACT_APP_HOST, PORT as REACT_APP_PORT } from '../utils';
+import { API_URL } from '../utils';
 
-export const socket = new WebSocket(`wss://${REACT_APP_HOST}`);
+export const socket = new WebSocket(`ws://${API_URL}`);

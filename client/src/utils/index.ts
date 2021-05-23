@@ -1,5 +1,4 @@
-export { DEFAULT_DRAW_COLOR } from './consts';
-export { HOST, PORT } from './envVariables';
+export { DEFAULT_DRAW_COLOR, API_URL } from './consts';
 export { loadImage } from './loadImage';
 export { validateInputLineWidth } from './validateInputLineWidth';
 export { handleDrawInCanvas } from './handleDrawInCanvas';

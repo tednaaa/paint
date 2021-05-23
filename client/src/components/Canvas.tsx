@@ -10,9 +10,9 @@ import {
 } from '../api';
 import { UrlParams } from '../interfaces';
 import { authModalState, canvasState, sessionState, toolState } from '../store';
-import '../styles/canvas.scss';
 import { Brush } from '../tools';
-import { setCanvasSize } from '../utils/setCanvasSize';
+import { setCanvasSize } from '../utils';
+import '../styles/canvas.scss';
 
 export const Canvas: FC = observer(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);

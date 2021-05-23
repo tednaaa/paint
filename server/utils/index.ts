@@ -1,4 +1,4 @@
-export { HOST, PORT } from './envVariables';
+export { API_URL } from './envVariables';
 export { saveImage } from './saveImage';
 export { getImage } from './getImage';
 export { handleConnection } from './handleConnection';

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { HOST as REACT_APP_HOST, PORT as REACT_APP_PORT } from '../utils';
+import { API_URL } from '../utils';
 
 export const getCanvasImageFromServer = (
   canvas: HTMLCanvasElement,
@@ -7,7 +7,7 @@ export const getCanvasImageFromServer = (
   sessionId: string
 ) => {
   axios
-    .get(`http://${REACT_APP_HOST}/image?id=${sessionId}`)
+    .get(`http://${API_URL}/image?id=${sessionId}`)
     .then((response) => {
       const image = new Image();
 
