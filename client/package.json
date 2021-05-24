@@ -27,7 +27,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development react-scripts start",
     "build": "npm ci && react-scripts build",
-    "buildFolder": "react-scripts build",
+    "build:local": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -4,7 +4,7 @@
   "scripts": {
     "build": "npm run build --prefix server && npm run build --prefix client",
     "start": "npm run start --prefix server",
-    "build:project": "npm run build --prefix server && npm run buildFolder --prefix client"
+    "build:local": "npm run build --prefix server && npm run build:local --prefix client"
   },
   "repository": {
     "type": "git",
