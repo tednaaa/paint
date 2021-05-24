@@ -15,6 +15,7 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.static(path.resolve(__dirname, '..', '..', 'client', 'build')));
+app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.use('/', router);
 
 app.ws('/', (webSocket: any) => {
@@ -33,5 +34,5 @@ app.ws('/', (webSocket: any) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server started on: https://${API_URL}`);
+  console.log(`Server started on: ${API_URL}`);
 });

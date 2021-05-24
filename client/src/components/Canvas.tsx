@@ -9,7 +9,7 @@ import {
   socket,
 } from '../api';
 import { UrlParams } from '../interfaces';
-import { authModalState, canvasState, sessionState, toolState } from '../store';
+import { canvasState, sessionState, toolState } from '../store';
 import { Brush } from '../tools';
 import { setCanvasSize } from '../utils';
 import '../styles/canvas.scss';
@@ -35,7 +35,6 @@ export const Canvas: FC = observer(() => {
 
       setCanvasSize(canvas);
       canvasState.setCanvas(canvas);
-      authModalState.setActive(false);
       sessionState.setSessionId(params.id);
       toolState.setTool(new Brush(canvasState.canvas));
 

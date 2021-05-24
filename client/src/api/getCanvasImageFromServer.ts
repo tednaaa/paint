@@ -7,7 +7,7 @@ export const getCanvasImageFromServer = (
   sessionId: string
 ) => {
   axios
-    .get(`https://${API_URL}/image?id=${sessionId}`)
+    .get(`${API_URL}/image?id=${sessionId}`)
     .then((response) => {
       const image = new Image();
 

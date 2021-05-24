@@ -7,7 +7,7 @@ export const App: FC = () => {
     <BrowserRouter>
       <div className="app">
         <Switch>
-          <Route path="/:id">
+          <Route exact path="/:id">
             <ToolBar />
             <SettingBar />
             <Canvas />

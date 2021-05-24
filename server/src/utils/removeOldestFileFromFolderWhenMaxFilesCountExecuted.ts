@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { IMAGES_PATH } from './consts';
 import { deleteFileFromFolder } from './deleteFileFromFolder';
 import { getFileBirthTimeMsInFolder } from './getFileBirthTimeMsInFolder';
 import { getOldestFileMsInFolder } from './getOldestFileMsInFolder';
@@ -17,15 +18,13 @@ export const removeOldestFileFromFolderWhenMaxFilesCountExecuted = (
       return;
     }
 
-    const imagesFolder = '../images';
-
     images.forEach((image) => {
       try {
         if (
-          getFileBirthTimeMsInFolder(imagesFolder, image) ===
-          getOldestFileMsInFolder(imagesFolder, images)
+          getFileBirthTimeMsInFolder(IMAGES_PATH, image) ===
+          getOldestFileMsInFolder(IMAGES_PATH, images)
         ) {
-          deleteFileFromFolder(imagesFolder, image);
+          deleteFileFromFolder(IMAGES_PATH, image);
         }
       } catch (error) {
         console.log(error);

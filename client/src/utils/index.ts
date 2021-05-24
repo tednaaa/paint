@@ -1,4 +1,4 @@
-export { DEFAULT_DRAW_COLOR, API_URL } from './consts';
+export { DEFAULT_DRAW_COLOR, API_URL, WEB_SOCKET_URL } from './consts';
 export { loadImage } from './loadImage';
 export { validateInputLineWidth } from './validateInputLineWidth';
 export { handleDrawInCanvas } from './handleDrawInCanvas';

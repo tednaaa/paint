@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "dev": "nodemon index.ts",
-    "build": "rm -rf build && npx tsc --project ./ && cp -r images build/images",
+    "dev": "nodemon src/index.ts",
+    "build": "rm -rf build && npx tsc --project ./",
     "start": "node build/index.js"
   },
   "author": "And",

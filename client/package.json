@@ -25,8 +25,9 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env NODE_ENV=development react-scripts start",
     "build": "npm ci && react-scripts build",
+    "buildFolder": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
