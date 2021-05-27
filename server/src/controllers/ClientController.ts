@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import path from 'path';
+import { isProductionEnv } from '../utils';
 
 class ClientController {
   get(request: Request, response: Response) {
-    if (process.env.NODE_ENV !== 'development') {
+    if (isProductionEnv()) {
       response.sendFile(
         path.join(__dirname, '..', '..', 'client', 'build', 'index.html')
       );

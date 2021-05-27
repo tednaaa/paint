@@ -1,3 +1,3 @@
-import { WEB_SOCKET_URL } from '../utils';
+import { SOCKET_URL } from '../utils';
 
-export const socket = new WebSocket(WEB_SOCKET_URL);
+export const socket = new WebSocket(SOCKET_URL);
