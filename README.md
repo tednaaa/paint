@@ -9,14 +9,6 @@ cp .env.example .env
 npm ci
 ```
 
-## In client dir
-
-> Install packages
-
-```
-npm ci
-```
-
 > Compiles and hot-reloads for development
 
 ```
@@ -33,24 +25,4 @@ npm run build
 
 ```
 npm run test
-```
-
-## In server dir
-
-> Compiles and hot-reloads for development
-
-```
-npm run dev
-```
-
-> Compiles for production
-
-```
-npm run build
-```
-
-> Run nodejs server
-
-```
-npm start
 ```
