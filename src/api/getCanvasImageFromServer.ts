@@ -11,7 +11,7 @@ export const getCanvasImageFromServer = (
     .then((response) => {
       const image = new Image();
 
-      image.src = response.data;
+      image.src = response.data.image;
       image.onload = () => {
         ctx?.clearRect(0, 0, canvas.width, canvas.height);
         ctx?.drawImage(image, 0, 0, canvas.width, canvas.height);
