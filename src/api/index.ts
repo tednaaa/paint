@@ -1,5 +1,5 @@
 export { socket } from './socket';
-export { addCanvasImageOnServer } from './addCanvasImageOnServer';
+export { saveCanvasImageOnServer } from './saveCanvasImageOnServer';
 export { getCanvasImageFromServer } from './getCanvasImageFromServer';
 export { handleConnectUser } from './handleConnectUser';
 export { handleDrawUser } from './handleDrawUser';
