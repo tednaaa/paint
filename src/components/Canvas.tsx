@@ -2,10 +2,10 @@ import { observer } from 'mobx-react-lite';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 import {
-  addCanvasImageOnServer,
   getCanvasImageFromServer,
   handleConnectUser,
   handleDrawUser,
+  saveCanvasImageOnServer,
   socket,
 } from '../api';
 import { UrlParams } from '../interfaces';
@@ -23,7 +23,7 @@ export const Canvas: FC = observer(() => {
 
     if (canvas) {
       canvasState.pushToUndo(canvas.toDataURL());
-      addCanvasImageOnServer(canvas, params.id);
+      saveCanvasImageOnServer(canvas, params.id);
     }
   };
 
