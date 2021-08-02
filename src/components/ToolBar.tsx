@@ -7,9 +7,13 @@ import {
   downloadCanvasImage,
   setDrawColor,
 } from '../utils';
-import '../styles/toolBar.scss';
+import '../styles/tool-bar.scss';
 
-export const ToolBar: FC = () => {
+interface Props {
+  toolBarRef: React.LegacyRef<HTMLDivElement>;
+}
+
+export const ToolBar: FC<Props> = ({ toolBarRef }) => {
   const [isBurgerActive, setBurgerActive] = useState(false);
   const [color, setColor] = useState(DEFAULT_DRAW_COLOR);
 
@@ -28,53 +32,53 @@ export const ToolBar: FC = () => {
   };
 
   return (
-    <div className="toolbar">
+    <div className="tool-bar" ref={toolBarRef}>
       <Burger
         isBurgerActive={isBurgerActive}
         onClick={() => setBurgerActive((prev) => !prev)}
       />
       <div
-        className={`toolbar__left ${
-          isBurgerActive ? 'toolbar__left--active' : ''
+        className={`tool-bar__left ${
+          isBurgerActive ? 'tool-bar__left--active' : ''
         }`}
       >
         <button
-          className="toolbar-item toolbar-item--brush"
+          className="tool-bar-item tool-bar-item--brush"
           onClick={() => setTool(new Brush(canvasState.canvas))}
         ></button>
         <button
-          className="toolbar-item toolbar-item--rect"
+          className="tool-bar-item tool-bar-item--rect"
           onClick={() => setTool(new Rect(canvasState.canvas))}
         ></button>
         <button
-          className="toolbar-item toolbar-item--circle"
+          className="tool-bar-item tool-bar-item--circle"
           onClick={() => setTool(new Circle(canvasState.canvas))}
         ></button>
         <button
-          className="toolbar-item toolbar-item--eraser"
+          className="tool-bar-item tool-bar-item--eraser"
           onClick={() => setTool(new Eraser(canvasState.canvas))}
         ></button>
         <button
-          className="toolbar-item toolbar-item--line"
+          className="tool-bar-item tool-bar-item--line"
           onClick={() => setTool(new Line(canvasState.canvas))}
         ></button>
         <input
-          className="toolbar-item"
+          className="tool-bar-item"
           type="color"
           onChange={handleColorChange}
         />
       </div>
-      <div className="toolbar__right">
+      <div className="tool-bar__right">
         <button
-          className="toolbar-item toolbar-item--undo"
+          className="tool-bar-item tool-bar-item--undo"
           onClick={() => canvasState.undo()}
         ></button>
         <button
-          className="toolbar-item toolbar-item--redo"
+          className="tool-bar-item tool-bar-item--redo"
           onClick={() => canvasState.redo()}
         ></button>
         <button
-          className="toolbar-item toolbar-item--save"
+          className="tool-bar-item tool-bar-item--save"
           onClick={downloadCanvasImage}
         ></button>
       </div>

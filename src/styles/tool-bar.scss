@@ -1,4 +1,4 @@
-.toolbar {
+.tool-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -9,7 +9,7 @@
   z-index: 10;
 }
 
-.toolbar__left {
+.tool-bar__left {
   display: flex;
   align-items: center;
 
@@ -28,11 +28,11 @@
   }
 }
 
-.toolbar__left--active {
+.tool-bar__left--active {
   transform: translateY(0);
 }
 
-.toolbar-item {
+.tool-bar-item {
   border: 0;
   cursor: pointer;
   background-color: transparent;
@@ -42,41 +42,41 @@
   background-size: cover;
 }
 
-.toolbar-item--brush {
+.tool-bar-item--brush {
   background-image: url('../assets/images/icons/brush.svg');
   margin-right: 16px;
 }
 
-.toolbar-item--rect {
+.tool-bar-item--rect {
   background-image: url('../assets/images/icons/rect.svg');
   margin-right: 16px;
 }
 
-.toolbar-item--circle {
+.tool-bar-item--circle {
   background-image: url('../assets/images/icons/circle.svg');
   margin-right: 16px;
 }
 
-.toolbar-item--eraser {
+.tool-bar-item--eraser {
   background-image: url('../assets/images/icons/eraser.svg');
   margin-right: 16px;
 }
 
-.toolbar-item--line {
+.tool-bar-item--line {
   background-image: url('../assets/images/icons/line.svg');
   margin-right: 16px;
 }
 
-.toolbar-item--undo {
+.tool-bar-item--undo {
   background-image: url('../assets/images/icons/undo.svg');
   margin-right: 16px;
 }
 
-.toolbar-item--redo {
+.tool-bar-item--redo {
   background-image: url('../assets/images/icons/redo.svg');
   margin-right: 16px;
 }
 
-.toolbar-item--save {
+.tool-bar-item--save {
   background-image: url('../assets/images/icons/save.svg');
 }

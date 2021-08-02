@@ -1,8 +1,9 @@
 import { sessionState } from '../store';
-import { socket } from './socket';
+import { socket } from './sockets';
 
 export const broadcastWhenDrawFinished = () => {
-  socket.send(
+  socket.emit(
+    'message',
     JSON.stringify({
       method: 'draw',
       id: sessionState.id,

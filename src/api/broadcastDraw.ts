@@ -1,6 +1,6 @@
 import { BroadcastDraw } from '../interfaces';
 import { sessionState } from '../store';
-import { socket } from './socket';
+import { socket } from './sockets';
 
 export const broadcastDraw = ({
   figureType,
@@ -13,7 +13,8 @@ export const broadcastDraw = ({
   width,
   height,
 }: BroadcastDraw) => {
-  socket.send(
+  socket.emit(
+    'message',
     JSON.stringify({
       method: 'draw',
       id: sessionState.id,

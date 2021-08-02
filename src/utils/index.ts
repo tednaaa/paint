@@ -1,8 +1,10 @@
-export { DEFAULT_DRAW_COLOR, REACT_APP_API_URL, SOCKET_URL } from './consts';
+export { DEFAULT_DRAW_COLOR, REACT_APP_API_URL, SOCKET_URL } from './config';
 export { loadImage } from './loadImage';
 export { validateInputLineWidth } from './validateInputLineWidth';
 export { handleDrawInCanvas } from './handleDrawInCanvas';
 export { downloadCanvasImage } from './downloadCanvasImage';
 export { setDrawColor } from './setDrawColor';
-export { setCanvasSize } from './setCanvasSize';
 export { isProductionEnv } from './isProductionEnv';
+export { generateSymbols } from './generateSymbols';
+export { convertElementSidePercentagesToPixels } from './convertElementSidePercentagesToPixels';
+export { setCanvasSize } from './setCanvasSize';

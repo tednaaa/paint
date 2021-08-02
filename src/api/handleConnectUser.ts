@@ -1,8 +1,9 @@
 import { sessionState } from '../store';
-import { socket } from './socket';
+import { socket } from './sockets';
 
 export const handleConnectUser = () => {
-  socket.send(
+  socket.emit(
+    'connect',
     JSON.stringify({
       method: 'connect',
       id: sessionState.id,

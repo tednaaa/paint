@@ -1,4 +1,4 @@
-export { socket } from './socket';
+export { socket } from './sockets';
 export { saveCanvasImageOnServer } from './saveCanvasImageOnServer';
 export { getCanvasImageFromServer } from './getCanvasImageFromServer';
 export { handleConnectUser } from './handleConnectUser';
