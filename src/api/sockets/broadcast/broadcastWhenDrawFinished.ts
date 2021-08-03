@@ -1,5 +1,5 @@
-import { sessionState } from '../store';
-import { socket } from './sockets';
+import { socket } from '..';
+import { sessionState } from '../../../store';
 
 export const broadcastWhenDrawFinished = () => {
   socket.emit(

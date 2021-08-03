@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { REACT_APP_API_URL } from '../utils';
+import { REACT_APP_API_URL } from '../../utils';
 
 export const saveCanvasImageOnServer = (
   canvas: HTMLCanvasElement,

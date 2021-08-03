@@ -1,6 +1,6 @@
-import { BroadcastDraw } from '../interfaces';
-import { sessionState } from '../store';
-import { socket } from './sockets';
+import { BroadcastDraw } from '../../../interfaces';
+import { sessionState } from '../../../store';
+import { socket } from '..';
 
 export const broadcastDraw = ({
   figureType,

@@ -1,9 +1,4 @@
 import { io } from 'socket.io-client';
-import { SOCKET_URL } from '../../utils';
-import { handleConnectUser } from '../handleConnectUser';
-import { handleDrawUser } from '../handleDrawUser';
+import { REACT_APP_API_URL } from '../../utils';
 
-export const socket = io(SOCKET_URL);
-
-socket.on('connect', handleConnectUser);
-socket.on('message', handleDrawUser);
+export const socket = io(REACT_APP_API_URL);

@@ -1,4 +1,4 @@
-export { DEFAULT_DRAW_COLOR, REACT_APP_API_URL, SOCKET_URL } from './config';
+export { DEFAULT_DRAW_COLOR, REACT_APP_API_URL } from './config';
 export { loadImage } from './loadImage';
 export { validateInputLineWidth } from './validateInputLineWidth';
 export { handleDrawInCanvas } from './handleDrawInCanvas';
