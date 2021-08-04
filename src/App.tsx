@@ -1,7 +1,5 @@
 import { useLayoutEffect, useState, FC, useRef } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { socket } from './api';
-import { handleConnect, handleMessage } from './api/sockets/handlers';
 import { Canvas, SettingBar, ToolBar } from './components';
 import { generateSymbols } from './utils';
 
@@ -19,9 +17,6 @@ export const App: FC = () => {
         toolBarElement.clientHeight + settingBarElement.clientHeight
       );
     }
-
-    socket.on('connect', handleConnect);
-    socket.on('message', handleMessage);
   }, []);
 
   return (

@@ -1,3 +1,6 @@
+import { socket } from '..';
+import { sessionState } from '../../../store';
+
 export const handleConnect = () => {
-  console.log('подключено');
+  socket.emit('hello', sessionState.id);
 };
