@@ -71,6 +71,12 @@ export class Brush extends Tool {
           color: this.strokeColor,
         },
       });
+
+      this.ctx.strokeStyle = this.strokeColor;
+      this.ctx.lineWidth = this.lineWidth;
+
+      this.ctx.lineTo(this.x, this.y);
+      this.ctx.stroke();
     }
   }
 
