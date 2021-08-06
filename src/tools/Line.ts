@@ -1,4 +1,5 @@
-import { broadcastDraw } from '../api';
+import { emitMessage } from '../api';
+import { IColor } from '../types';
 import { Tool } from './Tool';
 
 export class Line extends Tool {
@@ -38,13 +39,17 @@ export class Line extends Tool {
       this.y = event.pageY - target.offsetTop;
     }
 
-    broadcastDraw({
-      figureType: 'line',
+    emitMessage({
       ctx: this.ctx,
-      x: this.x,
-      y: this.y,
-      currentX: this.currentX,
-      currentY: this.currentY,
+      figure: {
+        type: 'line',
+        x: this.x,
+        y: this.y,
+        currentX: this.currentX,
+        currentY: this.currentY,
+        color: this.strokeColor,
+        lineWidth: this.lineWidth,
+      },
     });
   }
 
@@ -100,13 +105,13 @@ export class Line extends Tool {
     };
   }
 
-  static staticDraw(
+  static drawFromBroadcast(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
     currentX: number,
     currentY: number,
-    color: string,
+    color: IColor,
     lineWidth: number
   ) {
     ctx.strokeStyle = color;

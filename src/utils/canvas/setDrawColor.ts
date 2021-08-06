@@ -1,4 +1,4 @@
-import { toolState } from '../store';
+import { toolState } from '../../store';
 
 export const setDrawColor = (color: string) => {
   toolState.setStrokeColor(color);

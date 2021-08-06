@@ -1,4 +1,5 @@
-import { broadcastDraw } from '../api';
+import { emitMessage } from '../api';
+import { IColor } from '../types';
 import { Tool } from './Tool';
 
 export class Circle extends Tool {
@@ -28,12 +29,15 @@ export class Circle extends Tool {
   handleMouseUp() {
     this.mouseDown = false;
 
-    broadcastDraw({
-      figureType: 'circle',
+    emitMessage({
       ctx: this.ctx,
-      x: this.startX,
-      y: this.startY,
-      radius: this.radius,
+      figure: {
+        type: 'circle',
+        x: this.startX,
+        y: this.startY,
+        radius: this.radius,
+        color: this.strokeColor,
+      },
     });
   }
 
@@ -95,12 +99,12 @@ export class Circle extends Tool {
     };
   }
 
-  static staticDraw(
+  static drawFromBroadcast(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
     radius: number,
-    color: string
+    color: IColor
   ) {
     ctx.fillStyle = color;
     ctx.beginPath();

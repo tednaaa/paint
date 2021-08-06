@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { loadImage } from '../utils/loadImage';
+import { loadImageIntoCanvas } from '../utils/canvas';
 
 class CanvasState {
   canvas: HTMLCanvasElement = null!;
@@ -28,7 +28,7 @@ class CanvasState {
 
       this.pushToRedo(this.canvas.toDataURL());
 
-      loadImage(dataUrl, this.canvas);
+      loadImageIntoCanvas(dataUrl, this.canvas);
     } else {
       const ctx = this.canvas.getContext('2d');
 
@@ -42,7 +42,7 @@ class CanvasState {
 
       this.pushToUndo(this.canvas.toDataURL());
 
-      loadImage(dataUrl, this.canvas);
+      loadImageIntoCanvas(dataUrl, this.canvas);
     }
   }
 }

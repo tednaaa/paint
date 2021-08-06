@@ -1,13 +1,10 @@
 import { ChangeEvent, FC, useState } from 'react';
-import { Tool, Brush, Rect, Circle, Eraser, Line } from '../tools';
+import { Tool, Brush, Rectangle, Circle, Eraser, Line } from '../tools';
 import { canvasState, toolState } from '../store';
 import { Burger } from '.';
-import {
-  DEFAULT_DRAW_COLOR,
-  downloadCanvasImage,
-  setDrawColor,
-} from '../utils';
+import { downloadCanvasImage, setDrawColor } from '../utils';
 import '../styles/tool-bar.scss';
+import { DEFAULT_DRAW_COLOR } from '../config';
 
 interface Props {
   toolBarRef: React.LegacyRef<HTMLDivElement>;
@@ -48,7 +45,7 @@ export const ToolBar: FC<Props> = ({ toolBarRef }) => {
         ></button>
         <button
           className="tool-bar-item tool-bar-item--rect"
-          onClick={() => setTool(new Rect(canvasState.canvas))}
+          onClick={() => setTool(new Rectangle(canvasState.canvas))}
         ></button>
         <button
           className="tool-bar-item tool-bar-item--circle"

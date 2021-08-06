@@ -1,4 +1,4 @@
-export const loadImage = (
+export const loadImageIntoCanvas = (
   dataUrl: string | undefined,
   canvas: HTMLCanvasElement
 ) => {

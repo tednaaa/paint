@@ -1,4 +1,4 @@
-import { canvasState, sessionState } from '../store';
+import { canvasState, sessionState } from '../../store';
 
 export const downloadCanvasImage = () => {
   const linkElement = document.createElement('a');

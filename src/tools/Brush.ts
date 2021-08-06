@@ -1,4 +1,5 @@
-import { broadcastDraw, broadcastWhenDrawFinished } from '../api';
+import { emitMessage } from '../api';
+import { IColor } from '../types';
 import { Tool } from './Tool';
 
 export class Brush extends Tool {
@@ -30,7 +31,6 @@ export class Brush extends Tool {
     const target = event.target as HTMLCanvasElement;
 
     this.mouseDown = true;
-    broadcastWhenDrawFinished();
 
     if (event instanceof TouchEvent) {
       this.ctx.beginPath();
@@ -61,20 +61,24 @@ export class Brush extends Tool {
         this.y = event.pageY - target.offsetTop;
       }
 
-      broadcastDraw({
-        figureType: 'brush',
+      emitMessage({
         ctx: this.ctx,
-        x: this.x,
-        y: this.y,
+        figure: {
+          type: 'brush',
+          x: this.x,
+          y: this.y,
+          lineWidth: this.lineWidth,
+          color: this.strokeColor,
+        },
       });
     }
   }
 
-  static draw(
+  static drawFromBroadcast(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
-    color: string,
+    color: IColor,
     lineWidth: number
   ) {
     ctx.strokeStyle = color;

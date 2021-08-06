@@ -1,4 +1,4 @@
-import { broadcastDraw, broadcastWhenDrawFinished } from '../api';
+import { emitMessage } from '../api';
 import { Tool } from './Tool';
 
 export class Eraser extends Tool {
@@ -32,8 +32,6 @@ export class Eraser extends Tool {
     this.mouseDown = true;
     this.ctx.beginPath();
 
-    broadcastWhenDrawFinished();
-
     if (event instanceof TouchEvent) {
       this.ctx.moveTo(
         event.touches[0].pageX - target.offsetLeft,
@@ -61,16 +59,20 @@ export class Eraser extends Tool {
         this.y = event.pageY - target.offsetTop;
       }
 
-      broadcastDraw({
-        figureType: 'eraser',
+      emitMessage({
         ctx: this.ctx,
-        x: this.x,
-        y: this.y,
+        figure: {
+          type: 'eraser',
+          x: this.x,
+          y: this.y,
+          lineWidth: this.lineWidth,
+          color: this.strokeColor,
+        },
       });
     }
   }
 
-  static draw(
+  static drawFromBroadcast(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,

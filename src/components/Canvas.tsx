@@ -2,12 +2,15 @@ import { observer } from 'mobx-react-lite';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 import { getCanvasImageFromServer } from '../api';
-import { UrlParams } from '../interfaces';
+import { IUrlParams } from '../interfaces';
 import { canvasState, sessionState, toolState } from '../store';
 import '../styles/canvas.scss';
 import { Brush } from '../tools';
-import { convertElementSidePercentagesToPixels, setCanvasSize } from '../utils';
-import { handleDrawEnd } from '../utils/canvas/handleDrawEnd';
+import {
+  convertElementSidePercentagesToPixels,
+  handleDrawEnd,
+  setCanvasSize,
+} from '../utils';
 
 interface Props {
   offsetOfTopElements: number;
@@ -15,7 +18,7 @@ interface Props {
 
 export const Canvas: FC<Props> = observer(({ offsetOfTopElements }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const params = useParams<UrlParams>();
+  const params = useParams<IUrlParams>();
 
   useLayoutEffect(() => {
     const canvas = canvasRef.current;

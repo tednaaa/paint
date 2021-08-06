@@ -1,7 +1,8 @@
-import { broadcastDraw } from '../api';
+import { emitMessage } from '../api';
+import { IColor } from '../types';
 import { Tool } from './Tool';
 
-export class Rect extends Tool {
+export class Rectangle extends Tool {
   mouseDown = false;
   startX: number = 0;
   startY: number = 0;
@@ -28,13 +29,16 @@ export class Rect extends Tool {
   handleMouseUp() {
     this.mouseDown = false;
 
-    broadcastDraw({
-      figureType: 'rect',
+    emitMessage({
       ctx: this.ctx,
-      x: this.startX,
-      y: this.startY,
-      width: this.width,
-      height: this.height,
+      figure: {
+        type: 'rectangle',
+        x: this.startX,
+        y: this.startY,
+        width: this.width,
+        height: this.height,
+        color: this.strokeColor,
+      },
     });
   }
 
@@ -92,13 +96,13 @@ export class Rect extends Tool {
     };
   }
 
-  static staticDraw(
+  static drawFromBroadcast(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
     width: number,
     height: number,
-    color: string
+    color: IColor
   ) {
     ctx.fillStyle = color;
     ctx.beginPath();
