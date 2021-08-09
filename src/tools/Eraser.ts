@@ -1,4 +1,5 @@
 import { emitMessage } from '../api';
+import { IDrawEraserFromBroadcast } from '../interfaces';
 import { Tool } from './Tool';
 
 export class Eraser extends Tool {
@@ -72,12 +73,7 @@ export class Eraser extends Tool {
     }
   }
 
-  static drawFromBroadcast(
-    ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    lineWidth: number
-  ) {
+  static drawFromBroadcast({ ctx, x, y, lineWidth }: IDrawEraserFromBroadcast) {
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = lineWidth;
 

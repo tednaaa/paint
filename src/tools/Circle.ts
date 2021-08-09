@@ -1,5 +1,5 @@
 import { emitMessage } from '../api';
-import { IColor } from '../types';
+import { IDrawCircleFromBroadcast } from '../interfaces';
 import { Tool } from './Tool';
 
 export class Circle extends Tool {
@@ -99,13 +99,13 @@ export class Circle extends Tool {
     };
   }
 
-  static drawFromBroadcast(
-    ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    radius: number,
-    color: IColor
-  ) {
+  static drawFromBroadcast({
+    ctx,
+    x,
+    y,
+    radius,
+    color,
+  }: IDrawCircleFromBroadcast) {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);

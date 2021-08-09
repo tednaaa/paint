@@ -1,5 +1,5 @@
 import { emitMessage } from '../api';
-import { IColor } from '../types';
+import { IDrawRectangleFromBroadcast } from '../interfaces';
 import { Tool } from './Tool';
 
 export class Rectangle extends Tool {
@@ -96,14 +96,14 @@ export class Rectangle extends Tool {
     };
   }
 
-  static drawFromBroadcast(
-    ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    color: IColor
-  ) {
+  static drawFromBroadcast({
+    ctx,
+    x,
+    y,
+    width,
+    height,
+    color,
+  }: IDrawRectangleFromBroadcast) {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.rect(x, y, width, height);

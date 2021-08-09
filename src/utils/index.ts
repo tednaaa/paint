@@ -5,7 +5,6 @@ export {
   downloadCanvasImage,
   loadImageIntoCanvas,
   handleDrawEnd,
-  handleDrawInCanvas,
   setCanvasSize,
   setDrawColor,
 } from './canvas';

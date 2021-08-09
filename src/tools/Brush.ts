@@ -1,5 +1,5 @@
 import { emitMessage } from '../api';
-import { IColor } from '../types';
+import { IDrawBrushFromBroadcast } from '../interfaces';
 import { Tool } from './Tool';
 
 export class Brush extends Tool {
@@ -80,13 +80,13 @@ export class Brush extends Tool {
     }
   }
 
-  static drawFromBroadcast(
-    ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    color: IColor,
-    lineWidth: number
-  ) {
+  static drawFromBroadcast({
+    ctx,
+    x,
+    y,
+    color,
+    lineWidth,
+  }: IDrawBrushFromBroadcast) {
     ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth;
 
