@@ -25,21 +25,22 @@ export class Brush extends Tool {
 
   handleMouseUp() {
     this.mouseDown = false;
+
+    this.ctx.beginPath();
   }
 
   handleMouseDown(event: MouseEvent | TouchEvent) {
     const target = event.target as HTMLCanvasElement;
 
     this.mouseDown = true;
+    this.ctx.beginPath();
 
     if (event instanceof TouchEvent) {
-      this.ctx.beginPath();
       this.ctx.moveTo(
         event.touches[0].pageX - target.offsetLeft,
         event.touches[0].pageY - target.offsetTop
       );
     } else {
-      this.ctx.beginPath();
       this.ctx.moveTo(
         event.pageX - target.offsetLeft,
         event.pageY - target.offsetTop
@@ -61,32 +62,29 @@ export class Brush extends Tool {
         this.y = event.pageY - target.offsetTop;
       }
 
+      const drawInfo = {
+        x: this.x,
+        y: this.y,
+        lineWidth: this.lineWidth,
+        color: this.strokeColor,
+      };
+
       emitMessage({
         ctx: this.ctx,
         figure: {
           type: 'brush',
-          x: this.x,
-          y: this.y,
-          lineWidth: this.lineWidth,
-          color: this.strokeColor,
+          ...drawInfo,
         },
       });
 
-      this.ctx.strokeStyle = this.strokeColor;
-      this.ctx.lineWidth = this.lineWidth;
-
-      this.ctx.lineTo(this.x, this.y);
-      this.ctx.stroke();
+      Brush.draw({
+        ctx: this.ctx,
+        ...drawInfo,
+      });
     }
   }
 
-  static drawFromBroadcast({
-    ctx,
-    x,
-    y,
-    color,
-    lineWidth,
-  }: IDrawBrushFromBroadcast) {
+  static draw({ ctx, x, y, color, lineWidth }: IDrawBrushFromBroadcast) {
     ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth;
 

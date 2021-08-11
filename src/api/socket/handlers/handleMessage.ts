@@ -5,12 +5,11 @@ import { Brush, Circle, Eraser, Line, Rectangle } from '../../../tools';
 export const handleMessage = (message: IMessage) => {
   const figure = message.figure;
   const ctx = canvasState.canvas.getContext('2d');
-  console.log(figure);
 
   if (ctx) {
     switch (figure.type) {
       case 'brush':
-        Brush.drawFromBroadcast({
+        Brush.draw({
           ctx,
           x: figure.x,
           y: figure.y,
@@ -29,7 +28,7 @@ export const handleMessage = (message: IMessage) => {
         });
         break;
       case 'circle':
-        Circle.drawFromBroadcast({
+        Circle.drawForOtherClients({
           ctx,
           x: figure.x,
           y: figure.y,

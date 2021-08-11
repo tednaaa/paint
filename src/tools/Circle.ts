@@ -29,6 +29,8 @@ export class Circle extends Tool {
   handleMouseUp() {
     this.mouseDown = false;
 
+    this.ctx.beginPath();
+
     emitMessage({
       ctx: this.ctx,
       figure: {
@@ -99,7 +101,7 @@ export class Circle extends Tool {
     };
   }
 
-  static drawFromBroadcast({
+  static drawForOtherClients({
     ctx,
     x,
     y,
@@ -107,8 +109,8 @@ export class Circle extends Tool {
     color,
   }: IDrawCircleFromBroadcast) {
     ctx.fillStyle = color;
-    ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fill();
+    ctx.beginPath();
   }
 }

@@ -25,6 +25,8 @@ export class Eraser extends Tool {
 
   handleMouseUp() {
     this.mouseDown = false;
+
+    this.ctx.beginPath();
   }
 
   handleMouseDown(event: MouseEvent | TouchEvent) {

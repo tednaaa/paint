@@ -30,6 +30,7 @@ export class Line extends Tool {
     const target = event.target as HTMLCanvasElement;
 
     this.mouseDown = false;
+    this.ctx.beginPath();
 
     if (event instanceof TouchEvent) {
       this.x = event.touches[0].pageX - target.offsetLeft;
@@ -116,9 +117,9 @@ export class Line extends Tool {
   }: IDrawLineFromBroadcast) {
     ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth;
-    ctx.beginPath();
     ctx.moveTo(currentX, currentY);
     ctx.lineTo(x, y);
     ctx.stroke();
+    ctx.beginPath();
   }
 }

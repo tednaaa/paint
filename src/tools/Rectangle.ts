@@ -29,6 +29,8 @@ export class Rectangle extends Tool {
   handleMouseUp() {
     this.mouseDown = false;
 
+    this.ctx.beginPath();
+
     emitMessage({
       ctx: this.ctx,
       figure: {
@@ -105,8 +107,8 @@ export class Rectangle extends Tool {
     color,
   }: IDrawRectangleFromBroadcast) {
     ctx.fillStyle = color;
-    ctx.beginPath();
     ctx.rect(x, y, width, height);
     ctx.fill();
+    ctx.beginPath();
   }
 }
