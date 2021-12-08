@@ -1,1 +1,0 @@
-export { handleMessage } from './handleMessage';

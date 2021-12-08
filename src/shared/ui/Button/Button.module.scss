@@ -1,0 +1,13 @@
+.button {
+  padding: 10px 15px;
+  font-size: 18px;
+  line-height: 26px;
+  border: 2px solid darkcyan;
+  border-radius: 5px;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: darkcyan;
+    color: #fff;
+  }
+}
