@@ -2,19 +2,19 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
   workflow_dispatch:
 
 jobs:
   setup:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v2
