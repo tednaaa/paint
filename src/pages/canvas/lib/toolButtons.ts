@@ -1,7 +1,3 @@
-import { $canvas } from '../model/canvas.model';
-import { Brush } from './tools/brush';
-import { Rectangle } from './tools/rectangle';
-
 interface IToolButton {
   title: string;
   imageSource: string;

@@ -47,9 +47,7 @@ module.exports = {
       template: path.join(__dirname, 'public', 'index.html'),
     }),
     new MiniCssExtractPlugin({
-      filename: isDevelopment
-        ? 'css/[name].css'
-        : 'css/[name].[contenthash].css',
+      filename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css',
     }),
   ],
   module: {
@@ -61,12 +59,7 @@ module.exports = {
       },
       {
         test: /\.(css|scss)$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'group-css-media-queries-loader',
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'group-css-media-queries-loader', 'sass-loader'],
       },
       {
         test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,

@@ -1,29 +1,28 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Container } from './Container';
 
 describe('Container component', () => {
   it('should render correctly', () => {
     const MOCK_TEXT = 'test text';
 
-    const { findByText } = render(<Container>{MOCK_TEXT}</Container>);
+    const { getByText } = render(<Container>{MOCK_TEXT}</Container>);
 
-    const container = findByText(MOCK_TEXT);
+    const container = getByText(MOCK_TEXT);
 
-    expect(container).toBeTruthy();
+    expect(container).toBeInTheDocument();
   });
 
   it('should correctly render div inside the container', () => {
     const MOCK_TEXT = 'test text';
 
-    const { findByText } = render(
+    const { getByText } = render(
       <Container>
         <div>{MOCK_TEXT}</div>
       </Container>
     );
 
-    const divInsideComponent = findByText(MOCK_TEXT);
-
-    expect(divInsideComponent).toBeTruthy();
+    const divInsideComponent = getByText(MOCK_TEXT);
+    expect(divInsideComponent).toBeInTheDocument();
   });
 });

@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { AppRouter } from './providers/AppRouter';
+import { AppRoutes } from './providers/AppRoutes';
 
 export const App: FC = () => {
   return (
     <Router>
-      <AppRouter />
+      <AppRoutes />
     </Router>
   );
 };

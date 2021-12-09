@@ -1,2 +1,2 @@
-export { ColorPicker } from './ColorPicker/ColorPicker';
+export { ColorPicker } from './ui/color-picker';
 export { $color } from './model';
