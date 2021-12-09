@@ -1,8 +1,5 @@
 {
-  "name": "fsrt",
-  "version": "1.0.0",
-  "author": "And",
-  "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack serve",
     "prebuild": "rimraf build",
@@ -60,22 +57,5 @@
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.6.0"
-  },
-  "description": "🍰 React starter template based on feature-sliced, webpack & typescript",
-  "keywords": [
-    "react",
-    "typescript",
-    "webpack",
-    "feature-sliced",
-    "babel",
-    "eslint",
-    "jest",
-    "scss modules",
-    "prettier",
-    "axios",
-    "alloy",
-    "focus-visible",
-    "react-testing-library",
-    "react-router-dom"
-  ]
+  }
 }
