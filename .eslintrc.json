@@ -1,0 +1,14 @@
+{
+  "extends": ["alloy", "alloy/react", "alloy/typescript"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "no-require-imports": false
+  }
+}
