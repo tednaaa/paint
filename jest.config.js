@@ -3,7 +3,6 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
-  timers: 'modern',
   setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
   moduleNameMapper: {
     '\\.(jpeg|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
