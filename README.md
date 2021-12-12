@@ -1,9 +1,11 @@
+[Server side repo](https://github.com/tednaaa/paint-api)
+
 # Init project
 
 > Install packages
 
 ```
-npm i
+npm ci
 ```
 
 > Copy .env.example to .env & fill credentials
