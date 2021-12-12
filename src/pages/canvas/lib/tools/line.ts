@@ -1,13 +1,16 @@
+import { canvasSocket } from '@/shared/api';
 import { Tool } from './tool';
 
 export class Line extends Tool {
   isDrawing: boolean = false;
   startX: number;
   startY: number;
+  currentX: number;
+  currentY: number;
   saved = null;
 
-  constructor(canvas: HTMLCanvasElement) {
-    super(canvas);
+  constructor(room: string, canvas: HTMLCanvasElement) {
+    super(room, canvas);
 
     this.listen();
   }
@@ -20,13 +23,16 @@ export class Line extends Tool {
 
     this.ctx.moveTo(this.startX, this.startY);
     this.saved = this.canvas.toDataURL();
+
+    this.ctx.beginPath();
   }
 
   draw(event: MouseEvent) {
     if (this.isDrawing) {
-      const currentX = event.clientX;
-      const currentY = event.clientY - this.canvas.offsetTop;
       const image = new Image();
+
+      this.currentX = event.clientX;
+      this.currentY = event.clientY - this.canvas.offsetTop;
 
       image.src = this.saved;
 
@@ -35,7 +41,7 @@ export class Line extends Tool {
         this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
         this.ctx.beginPath();
         this.ctx.moveTo(this.startX, this.startY);
-        this.ctx.lineTo(currentX, currentY);
+        this.ctx.lineTo(this.currentX, this.currentY);
         this.ctx.stroke();
       };
     }
@@ -45,6 +51,16 @@ export class Line extends Tool {
     this.isDrawing = false;
 
     this.ctx.beginPath();
+    this.emitDrawEnd();
+    this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.currentX, this.currentY);
+  }
+
+  emitCoordinatesToConnectedUsers(startX: number, startY: number, currentX: number, currentY: number) {
+    canvasSocket.emit('draw', {
+      room: this.currentRoom,
+      toolName: 'line',
+      coordinates: { startX, startY, currentX, currentY },
+    });
   }
 
   listen() {
@@ -52,9 +68,5 @@ export class Line extends Tool {
     this.canvas.onmousemove = this.draw.bind(this);
     this.canvas.onmouseup = this.endDraw.bind(this);
     this.canvas.onmouseout = this.endDraw.bind(this);
-
-    this.canvas.ontouchstart = this.startDraw.bind(this);
-    this.canvas.ontouchmove = this.draw.bind(this);
-    this.canvas.ontouchend = this.endDraw.bind(this);
   }
 }

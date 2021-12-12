@@ -10,17 +10,17 @@ interface IHandleToolSelect {
   canvas: HTMLCanvasElement;
 }
 
-export const handleToolSelect = ({ title, canvas }: IHandleToolSelect) => {
+export const handleToolSelect = (imageId: string, { title, canvas }: IHandleToolSelect) => {
   switch (title) {
     case 'brush':
-      return setTool(new Brush(canvas));
+      return setTool(new Brush(imageId, canvas));
     case 'rectangle':
-      return setTool(new Rectangle(canvas));
+      return setTool(new Rectangle(imageId, canvas));
     case 'circle':
-      return setTool(new Circle(canvas));
+      return setTool(new Circle(imageId, canvas));
     case 'eraser':
-      return setTool(new Eraser(canvas));
+      return setTool(new Eraser(imageId, canvas));
     case 'line':
-      return setTool(new Line(canvas));
+      return setTool(new Line(imageId, canvas));
   }
 };

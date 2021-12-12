@@ -1,3 +1,4 @@
+import { canvasSocket } from '@/shared/api';
 import { Tool } from './tool';
 
 export class Circle extends Tool {
@@ -8,10 +9,11 @@ export class Circle extends Tool {
   currentY: number;
   width: number;
   height: number;
+  radius: number;
   saved = null;
 
-  constructor(canvas: HTMLCanvasElement) {
-    super(canvas);
+  constructor(room: string, canvas: HTMLCanvasElement) {
+    super(room, canvas);
 
     this.listen();
   }
@@ -23,6 +25,8 @@ export class Circle extends Tool {
     this.startY = event.clientY - this.canvas.offsetTop;
 
     this.saved = this.canvas.toDataURL();
+
+    this.ctx.beginPath();
   }
 
   draw(event: MouseEvent) {
@@ -31,8 +35,9 @@ export class Circle extends Tool {
       const currentY = event.clientY;
       const width = currentX - this.startX;
       const height = currentY - this.startY - this.canvas.offsetTop;
-      const radius = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
       const image = new Image();
+
+      this.radius = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
 
       image.src = this.saved;
 
@@ -40,7 +45,7 @@ export class Circle extends Tool {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
         this.ctx.beginPath();
-        this.ctx.arc(this.startX, this.startY, radius, 0, 2 * Math.PI);
+        this.ctx.arc(this.startX, this.startY, this.radius, 0, 2 * Math.PI);
         this.ctx.fill();
       };
     }
@@ -50,6 +55,16 @@ export class Circle extends Tool {
     this.isDrawing = false;
 
     this.ctx.beginPath();
+    this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.radius);
+    this.emitDrawEnd();
+  }
+
+  emitCoordinatesToConnectedUsers(startX: number, startY: number, radius: number) {
+    canvasSocket.emit('draw', {
+      room: this.currentRoom,
+      toolName: 'circle',
+      coordinates: { startX, startY, radius },
+    });
   }
 
   listen() {
@@ -57,9 +72,5 @@ export class Circle extends Tool {
     this.canvas.onmousemove = this.draw.bind(this);
     this.canvas.onmouseup = this.endDraw.bind(this);
     this.canvas.onmouseout = this.endDraw.bind(this);
-
-    this.canvas.ontouchstart = this.startDraw.bind(this);
-    this.canvas.ontouchmove = this.draw.bind(this);
-    this.canvas.ontouchend = this.endDraw.bind(this);
   }
 }

@@ -19,7 +19,7 @@ export const ToolBar: FC = () => {
       <div className={styles.toolBarLeft}>
         {toolButtons.map(({ imageSource, title }) => {
           return (
-            <button onClick={() => handleToolSelect({ title, canvas })} title={title} key={title}>
+            <button onClick={() => handleToolSelect(imageId, { title, canvas })} title={title} key={title}>
               <img className={styles.toolImage} src={imageSource} alt="" />
             </button>
           );
