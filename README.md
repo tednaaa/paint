@@ -1,4 +1,4 @@
-[Server side repo](https://github.com/tednaaa/paint-api)
+# [Server side repo](https://github.com/tednaaa/paint-api)
 
 # Init project
 
