@@ -1,1 +1,1 @@
-export { ExampleService as ApiExampleService } from './example/example.service';
+export { canvasSocket } from './socket/canvas';
