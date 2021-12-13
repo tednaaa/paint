@@ -5,7 +5,7 @@ const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const path = require('path');
 
-const parsedDotenvConfig = require('dotenv').config().parsed;
+require('dotenv').config();
 
 const { PORT, NODE_ENV } = process.env;
 
@@ -47,7 +47,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css',
     }),
-    new Dotenv(),
+    new Dotenv({ systemvars: true }),
   ],
   module: {
     rules: [
