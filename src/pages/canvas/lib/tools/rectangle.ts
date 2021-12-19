@@ -1,3 +1,4 @@
+import { $color } from '@/entities/color-picker';
 import { canvasSocket } from '@/shared/api';
 import { Tool } from './tool';
 
@@ -23,6 +24,7 @@ export class Rectangle extends Tool {
     this.startX = event.clientX;
     this.startY = event.clientY - this.canvas.offsetTop;
 
+    this.ctx.fillStyle = $color.getState();
     this.saved = this.canvas.toDataURL();
 
     this.ctx.beginPath();

@@ -1,4 +1,5 @@
 import { canvasSocket } from '@/shared/api';
+import { $color } from '@/entities/color-picker';
 import { Tool } from './tool';
 
 export class Brush extends Tool {
@@ -13,6 +14,7 @@ export class Brush extends Tool {
   startDraw() {
     this.isDrawing = true;
 
+    this.ctx.strokeStyle = $color.getState();
     this.ctx.beginPath();
   }
 

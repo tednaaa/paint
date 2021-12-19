@@ -1,4 +1,5 @@
 import { canvasSocket } from '@/shared/api';
+import { $color } from '@/entities/color-picker';
 import { Tool } from './tool';
 
 export class Line extends Tool {
@@ -20,6 +21,8 @@ export class Line extends Tool {
 
     this.startX = event.clientX;
     this.startY = event.clientY - this.canvas.offsetTop;
+
+    this.ctx.strokeStyle = $color.getState();
 
     this.ctx.moveTo(this.startX, this.startY);
     this.saved = this.canvas.toDataURL();
