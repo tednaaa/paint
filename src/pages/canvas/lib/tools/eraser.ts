@@ -1,4 +1,5 @@
 import { canvasSocket } from '@/shared/api';
+import { $lineWidth } from '@/features/set-line-width';
 import { Tool } from './tool';
 
 export class Eraser extends Tool {
@@ -12,8 +13,9 @@ export class Eraser extends Tool {
 
   startDraw() {
     this.isDrawing = true;
-    this.ctx.strokeStyle = '#fff';
 
+    this.ctx.lineWidth = $lineWidth.getState();
+    this.ctx.strokeStyle = '#fff';
     this.ctx.beginPath();
   }
 
@@ -29,14 +31,21 @@ export class Eraser extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitDrawEnd();
+      this.ctx.beginPath();
+      this.emitDrawEnd();
+    }
   }
 
   emitCoordinatesToConnectedUsers(currentX: number, currentY: number) {
-    canvasSocket.emit('draw', { room: this.currentRoom, toolName: 'eraser', coordinates: { currentX, currentY } });
+    canvasSocket.emit('draw', {
+      room: this.currentRoom,
+      toolName: 'eraser',
+      lineWidth: this.ctx.lineWidth,
+      coordinates: { currentX, currentY },
+    });
   }
 
   listen() {

@@ -1,4 +1,4 @@
-import { canvasSocket } from '@/shared/api';
+import { ApiImageService, canvasSocket } from '@/shared/api';
 
 export interface ITool {
   canvas: HTMLCanvasElement;
@@ -40,6 +40,8 @@ export class Tool implements ITool {
   }
 
   emitDrawEnd() {
+    ApiImageService.create(this.currentRoom, this.canvas.toDataURL());
+
     canvasSocket.emit('drawEnd', this.currentRoom);
   }
 

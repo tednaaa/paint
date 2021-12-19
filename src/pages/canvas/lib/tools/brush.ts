@@ -1,4 +1,6 @@
 import { canvasSocket } from '@/shared/api';
+import { $color } from '@/entities/color-picker';
+import { $lineWidth } from '@/features/set-line-width';
 import { Tool } from './tool';
 
 export class Brush extends Tool {
@@ -13,6 +15,8 @@ export class Brush extends Tool {
   startDraw() {
     this.isDrawing = true;
 
+    this.ctx.lineWidth = $lineWidth.getState();
+    this.ctx.strokeStyle = $color.getState();
     this.ctx.beginPath();
   }
 
@@ -28,14 +32,22 @@ export class Brush extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitDrawEnd();
+      this.ctx.beginPath();
+      this.emitDrawEnd();
+    }
   }
 
   emitCoordinatesToConnectedUsers(currentX: number, currentY: number) {
-    canvasSocket.emit('draw', { room: this.currentRoom, toolName: 'brush', coordinates: { currentX, currentY } });
+    canvasSocket.emit('draw', {
+      room: this.currentRoom,
+      toolName: 'brush',
+      color: this.ctx.strokeStyle,
+      lineWidth: this.ctx.lineWidth,
+      coordinates: { currentX, currentY },
+    });
   }
 
   listen() {

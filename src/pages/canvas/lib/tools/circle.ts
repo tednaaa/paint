@@ -1,4 +1,5 @@
 import { canvasSocket } from '@/shared/api';
+import { $color } from '@/entities/color-picker';
 import { Tool } from './tool';
 
 export class Circle extends Tool {
@@ -24,6 +25,7 @@ export class Circle extends Tool {
     this.startX = event.clientX;
     this.startY = event.clientY - this.canvas.offsetTop;
 
+    this.ctx.fillStyle = $color.getState();
     this.saved = this.canvas.toDataURL();
 
     this.ctx.beginPath();
@@ -52,17 +54,20 @@ export class Circle extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.radius);
-    this.emitDrawEnd();
+      this.ctx.beginPath();
+      this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.radius);
+      this.emitDrawEnd();
+    }
   }
 
   emitCoordinatesToConnectedUsers(startX: number, startY: number, radius: number) {
     canvasSocket.emit('draw', {
       room: this.currentRoom,
       toolName: 'circle',
+      color: this.ctx.fillStyle,
       coordinates: { startX, startY, radius },
     });
   }

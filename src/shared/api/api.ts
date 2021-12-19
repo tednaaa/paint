@@ -3,7 +3,7 @@ import { Manager } from 'socket.io-client';
 import { API_URL } from '../config';
 
 export const apiInstance = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: API_URL,
 });
 
 export const manager = new Manager(API_URL);

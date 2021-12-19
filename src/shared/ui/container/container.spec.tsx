@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
-import { Container } from './Container';
+import { render } from '@testing-library/react';
+import { Container } from './container';
 
 describe('Container component', () => {
   it('should render correctly', () => {

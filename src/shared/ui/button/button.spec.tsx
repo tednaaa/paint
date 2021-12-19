@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Button } from './Button';
+import { Button } from './button';
 
 describe('Button component', () => {
   it('should correctly render text inside the button', () => {

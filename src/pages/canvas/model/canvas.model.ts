@@ -7,10 +7,14 @@ export const { setCanvas } = createApi($canvas, {
   setCanvas: (_, canvas: HTMLCanvasElement) => canvas,
 });
 
-canvasSocket.on('draw', (toolName: string, coordinates) => {
+canvasSocket.on('draw', (toolName: string, color: string, lineWidth: number, coordinates) => {
   const ctx = $canvas.getState().getContext('2d');
 
   if (!ctx) return;
+
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = lineWidth;
 
   if (toolName === 'brush') {
     const { currentX, currentY } = coordinates;

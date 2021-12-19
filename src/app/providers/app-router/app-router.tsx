@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate, useRoutes } from 'react-router';
-import { generateSymbols } from '@/shared/lib';
+import { generateSymbols } from '@/shared/lib/generate-symbols';
 import { publicRoutes } from '@/pages/router';
 
 export const AppRoutes = () => {

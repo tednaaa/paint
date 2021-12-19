@@ -1,4 +1,6 @@
 import { canvasSocket } from '@/shared/api';
+import { $color } from '@/entities/color-picker';
+import { $lineWidth } from '@/features/set-line-width';
 import { Tool } from './tool';
 
 export class Line extends Tool {
@@ -20,6 +22,9 @@ export class Line extends Tool {
 
     this.startX = event.clientX;
     this.startY = event.clientY - this.canvas.offsetTop;
+
+    this.ctx.lineWidth = $lineWidth.getState();
+    this.ctx.strokeStyle = $color.getState();
 
     this.ctx.moveTo(this.startX, this.startY);
     this.saved = this.canvas.toDataURL();
@@ -48,17 +53,20 @@ export class Line extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitDrawEnd();
-    this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.currentX, this.currentY);
+      this.ctx.beginPath();
+      this.emitDrawEnd();
+      this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.currentX, this.currentY);
+    }
   }
 
   emitCoordinatesToConnectedUsers(startX: number, startY: number, currentX: number, currentY: number) {
     canvasSocket.emit('draw', {
       room: this.currentRoom,
       toolName: 'line',
+      color: this.ctx.strokeStyle,
       coordinates: { startX, startY, currentX, currentY },
     });
   }

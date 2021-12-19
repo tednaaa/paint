@@ -1,3 +1,4 @@
+import { $color } from '@/entities/color-picker';
 import { canvasSocket } from '@/shared/api';
 import { Tool } from './tool';
 
@@ -23,6 +24,7 @@ export class Rectangle extends Tool {
     this.startX = event.clientX;
     this.startY = event.clientY - this.canvas.offsetTop;
 
+    this.ctx.fillStyle = $color.getState();
     this.saved = this.canvas.toDataURL();
 
     this.ctx.beginPath();
@@ -50,17 +52,20 @@ export class Rectangle extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.width, this.height);
-    this.emitDrawEnd();
+      this.ctx.beginPath();
+      this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.width, this.height);
+      this.emitDrawEnd();
+    }
   }
 
   emitCoordinatesToConnectedUsers(currentX: number, currentY: number, width: number, height: number) {
     canvasSocket.emit('draw', {
       room: this.currentRoom,
       toolName: 'rectangle',
+      color: this.ctx.fillStyle,
       coordinates: { currentX, currentY, width, height },
     });
   }
