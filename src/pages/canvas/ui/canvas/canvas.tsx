@@ -15,7 +15,7 @@ export const Canvas = () => {
 
     canvasSocket.emit('joinRoom', imageId);
 
-    ApiImageService.fetchLatest(imageId).then(({ data: base64 }) => {
+    ApiImageService.fetch(imageId).then(({ data: base64 }) => {
       const image = new Image();
 
       image.src = base64;

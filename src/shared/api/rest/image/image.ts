@@ -7,7 +7,7 @@ export class ImageService {
     return apiInstance.post(route, { roomId, image });
   }
 
-  static fetchLatest(roomId: string) {
+  static fetch(roomId: string) {
     return apiInstance.get(`${route}${roomId}`);
   }
 }
