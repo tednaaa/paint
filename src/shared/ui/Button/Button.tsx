@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ButtonHTMLAttributes, FC } from 'react';
+import React, { FC } from 'react';
 import styles from './Button.module.scss';
 
 interface Props {

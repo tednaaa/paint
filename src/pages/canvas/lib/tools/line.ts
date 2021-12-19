@@ -48,11 +48,13 @@ export class Line extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitDrawEnd();
-    this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.currentX, this.currentY);
+      this.ctx.beginPath();
+      this.emitDrawEnd();
+      this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.currentX, this.currentY);
+    }
   }
 
   emitCoordinatesToConnectedUsers(startX: number, startY: number, currentX: number, currentY: number) {

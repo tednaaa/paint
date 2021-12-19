@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import { useStore } from 'effector-react';
 import { useImageId } from '@/shared/lib/hooks';
-import { UndoCanvasButton } from '@/features/undo-canvas';
-import { RedoCanvasButton } from '@/features/redo-canvas';
 import { DownloadCanvasImageButton } from '@/features/download-canvas-image';
 import { ColorPicker } from '@/entities/color-picker';
 import { $canvas } from '../../model/canvas.model';
@@ -27,8 +25,6 @@ export const ToolBar: FC = () => {
         <ColorPicker className={styles.colorPicker} />
       </div>
       <div className={styles.toolBarRight}>
-        <UndoCanvasButton />
-        <RedoCanvasButton />
         <DownloadCanvasImageButton canvas={canvas} imageId={imageId} />
       </div>
     </div>

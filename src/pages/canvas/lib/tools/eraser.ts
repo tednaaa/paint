@@ -29,10 +29,12 @@ export class Eraser extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitDrawEnd();
+      this.ctx.beginPath();
+      this.emitDrawEnd();
+    }
   }
 
   emitCoordinatesToConnectedUsers(currentX: number, currentY: number) {

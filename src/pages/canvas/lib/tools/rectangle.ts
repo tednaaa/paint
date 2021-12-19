@@ -50,11 +50,13 @@ export class Rectangle extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.width, this.height);
-    this.emitDrawEnd();
+      this.ctx.beginPath();
+      this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.width, this.height);
+      this.emitDrawEnd();
+    }
   }
 
   emitCoordinatesToConnectedUsers(currentX: number, currentY: number, width: number, height: number) {

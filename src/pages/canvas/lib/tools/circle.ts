@@ -52,11 +52,13 @@ export class Circle extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.radius);
-    this.emitDrawEnd();
+      this.ctx.beginPath();
+      this.emitCoordinatesToConnectedUsers(this.startX, this.startY, this.radius);
+      this.emitDrawEnd();
+    }
   }
 
   emitCoordinatesToConnectedUsers(startX: number, startY: number, radius: number) {

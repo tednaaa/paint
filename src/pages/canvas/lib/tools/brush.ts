@@ -28,14 +28,21 @@ export class Brush extends Tool {
   }
 
   endDraw() {
-    this.isDrawing = false;
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-    this.ctx.beginPath();
-    this.emitDrawEnd();
+      this.ctx.beginPath();
+      this.emitDrawEnd();
+    }
   }
 
   emitCoordinatesToConnectedUsers(currentX: number, currentY: number) {
-    canvasSocket.emit('draw', { room: this.currentRoom, toolName: 'brush', coordinates: { currentX, currentY } });
+    canvasSocket.emit('draw', {
+      room: this.currentRoom,
+      toolName: 'brush',
+      color: this.ctx.strokeStyle,
+      coordinates: { currentX, currentY },
+    });
   }
 
   listen() {
