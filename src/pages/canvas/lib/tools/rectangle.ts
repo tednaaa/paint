@@ -63,6 +63,7 @@ export class Rectangle extends Tool {
     canvasSocket.emit('draw', {
       room: this.currentRoom,
       toolName: 'rectangle',
+      color: this.ctx.fillStyle,
       coordinates: { currentX, currentY, width, height },
     });
   }

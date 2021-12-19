@@ -65,6 +65,7 @@ export class Circle extends Tool {
     canvasSocket.emit('draw', {
       room: this.currentRoom,
       toolName: 'circle',
+      color: this.ctx.fillStyle,
       coordinates: { startX, startY, radius },
     });
   }

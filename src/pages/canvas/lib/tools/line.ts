@@ -61,6 +61,7 @@ export class Line extends Tool {
     canvasSocket.emit('draw', {
       room: this.currentRoom,
       toolName: 'line',
+      color: this.ctx.strokeStyle,
       coordinates: { startX, startY, currentX, currentY },
     });
   }

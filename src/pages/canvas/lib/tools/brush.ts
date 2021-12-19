@@ -41,6 +41,7 @@ export class Brush extends Tool {
       room: this.currentRoom,
       toolName: 'brush',
       color: this.ctx.strokeStyle,
+      lineWidth: this.ctx.lineWidth,
       coordinates: { currentX, currentY },
     });
   }

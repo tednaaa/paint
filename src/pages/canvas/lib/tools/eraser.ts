@@ -38,7 +38,12 @@ export class Eraser extends Tool {
   }
 
   emitCoordinatesToConnectedUsers(currentX: number, currentY: number) {
-    canvasSocket.emit('draw', { room: this.currentRoom, toolName: 'eraser', coordinates: { currentX, currentY } });
+    canvasSocket.emit('draw', {
+      room: this.currentRoom,
+      toolName: 'eraser',
+      lineWidth: this.ctx.lineWidth,
+      coordinates: { currentX, currentY },
+    });
   }
 
   listen() {
