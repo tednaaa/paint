@@ -1,4 +1,5 @@
 import { canvasSocket } from '@/shared/api';
+import { $lineWidth } from '@/features/set-line-width';
 import { Tool } from './tool';
 
 export class Eraser extends Tool {
@@ -12,8 +13,9 @@ export class Eraser extends Tool {
 
   startDraw() {
     this.isDrawing = true;
-    this.ctx.strokeStyle = '#fff';
 
+    this.ctx.lineWidth = $lineWidth.getState();
+    this.ctx.strokeStyle = '#fff';
     this.ctx.beginPath();
   }
 
