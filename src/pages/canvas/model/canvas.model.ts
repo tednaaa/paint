@@ -7,7 +7,7 @@ export const { setCanvas } = createApi($canvas, {
   setCanvas: (_, canvas: HTMLCanvasElement) => canvas,
 });
 
-canvasSocket.on('draw', (toolName: string, color: string, lineWidth: number, coordinates) => {
+canvasSocket.on('draw', ({ toolName, color, lineWidth, coordinates }) => {
   const ctx = $canvas.getState().getContext('2d');
 
   if (!ctx) return;
