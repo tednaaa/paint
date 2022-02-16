@@ -5,8 +5,8 @@ export interface ITool {
   ctx: CanvasRenderingContext2D;
   currentRoom: string;
 
-  set color(newColor: string);
-  set lineWidth(newLineWidth: number);
+  color: (newColor: string) => any;
+  lineWidth: (newLineWidth: number) => any;
 }
 
 export class Tool implements ITool {

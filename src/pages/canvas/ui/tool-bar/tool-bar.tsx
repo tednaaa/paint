@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
 import { useStore } from 'effector-react';
-import { useImageId } from '@/shared/lib/hooks';
+import React, { FC } from 'react';
 import { DownloadCanvasImageButton } from '@/features/download-canvas-image';
 import { ColorPicker } from '@/entities/color-picker';
-import { $canvas } from '../../model/canvas.model';
-import { toolButtons } from '../../lib/toolButtons';
+import { useImageId } from '@/shared/lib/hooks';
 import { handleToolSelect } from '../../lib/handleToolSelect';
+import { toolButtons } from '../../lib/toolButtons';
+import { $canvas } from '../../model/canvas.model';
 import styles from './tool-bar.module.scss';
 
 export const ToolBar: FC = () => {

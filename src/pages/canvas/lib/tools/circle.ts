@@ -1,9 +1,9 @@
-import { canvasSocket } from '@/shared/api';
 import { $color } from '@/entities/color-picker';
+import { canvasSocket } from '@/shared/api';
 import { Tool } from './tool';
 
 export class Circle extends Tool {
-  isDrawing: boolean = false;
+  isDrawing = false;
   startX: number;
   startY: number;
   currentX: number;

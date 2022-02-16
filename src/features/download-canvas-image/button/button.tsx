@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
 import { useStore } from 'effector-react';
+import React, { FC } from 'react';
 import { downloadCanvasImage } from '../lib';
 import styles from './button.module.scss';
 
