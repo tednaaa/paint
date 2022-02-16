@@ -3,7 +3,7 @@ import { canvasSocket } from '@/shared/api';
 import { Tool } from './tool';
 
 export class Rectangle extends Tool {
-  isDrawing: boolean = false;
+  isDrawing = false;
   startX: number;
   startY: number;
   currentX: number;

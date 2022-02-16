@@ -1,10 +1,10 @@
 import React from 'react';
-import { $color } from '@/entities/color-picker';
 import { $lineWidth } from '@/features/set-line-width';
-import { ToolBar } from '../tool-bar/tool-bar';
-import { SettingsBar } from '../settings-bar/settings-bar';
-import { Canvas } from '../canvas/canvas';
+import { $color } from '@/entities/color-picker';
 import { $tool } from '../../model/tool.model';
+import { Canvas } from '../canvas/canvas';
+import { SettingsBar } from '../settings-bar/settings-bar';
+import { ToolBar } from '../tool-bar/tool-bar';
 
 $lineWidth.watch((lineWidth) => {
   const tool = $tool.getState();

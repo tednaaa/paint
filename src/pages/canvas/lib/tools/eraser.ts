@@ -1,9 +1,9 @@
-import { canvasSocket } from '@/shared/api';
 import { $lineWidth } from '@/features/set-line-width';
+import { canvasSocket } from '@/shared/api';
 import { Tool } from './tool';
 
 export class Eraser extends Tool {
-  isDrawing: boolean = false;
+  isDrawing = false;
 
   constructor(room: string, canvas: HTMLCanvasElement) {
     super(room, canvas);

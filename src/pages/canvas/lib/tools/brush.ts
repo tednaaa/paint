@@ -1,10 +1,10 @@
-import { canvasSocket } from '@/shared/api';
-import { $color } from '@/entities/color-picker';
 import { $lineWidth } from '@/features/set-line-width';
+import { $color } from '@/entities/color-picker';
+import { canvasSocket } from '@/shared/api';
 import { Tool } from './tool';
 
 export class Brush extends Tool {
-  isDrawing: boolean = false;
+  isDrawing = false;
 
   constructor(room: string, canvas: HTMLCanvasElement) {
     super(room, canvas);

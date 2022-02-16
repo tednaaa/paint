@@ -2,8 +2,9 @@
   "compilerOptions": {
     "jsx": "react",
     "esModuleInterop": true,
-    "target": "ES5",
+    "target": "ESNext",
     "baseUrl": "./src",
+    "moduleResolution": "Node",
     "paths": {
       "@/*": ["./*"]
     }

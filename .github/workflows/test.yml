@@ -29,4 +29,7 @@ jobs:
           cp .env.example .env
           npm ci
           npm run build
+      - name: Lint and run tests
+        run: |
+          npm run lint
           npm test
