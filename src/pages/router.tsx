@@ -1,10 +1,13 @@
 import React from 'react';
-import { routeNames } from '@/shared/router';
-import { CanvasPage } from './canvas';
+import { createBrowserRouter } from 'react-router-dom';
 
-export const publicRoutes = [
+import { routes } from '@/shared/lib/routes';
+
+import { RootPage } from './root';
+
+export const router = createBrowserRouter([
   {
-    path: `${routeNames.CANVAS}/:imageId`,
-    element: <CanvasPage />,
+    path: routes.ROOT,
+    element: <RootPage />,
   },
-];
+]);

@@ -1,0 +1,40 @@
+.toolBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 4px 4px rgba(60, 255, 171, 0.1);
+  background: cornflowerblue;
+  padding: 10px 15px;
+  position: relative;
+  z-index: 10;
+}
+
+.toolBarLeft,
+.toolBarRight {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 20px;
+}
+
+.toolsList {
+  display: flex;
+}
+
+.tool {
+  &:not(:last-child) {
+    margin-right: 15px;
+  }
+}
+
+.toolActive {
+  background-color: orange;
+}
+
+.toolImage {
+  height: 100%;
+}
+
+.colorPicker {
+  width: 30px;
+  height: 100%;
+}
