@@ -2,7 +2,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
-const webpack = require('webpack');
 const path = require('path');
 
 require('dotenv').config();
@@ -19,7 +18,7 @@ module.exports = {
     path: path.join(__dirname, 'build'),
     publicPath: '/',
   },
-  devtool: isDevelopment ? 'source-map' : false,
+  devtool: isDevelopment ? 'inline-source-map' : false,
   devServer: {
     static: {
       directory: path.join(__dirname, 'public'),
@@ -34,6 +33,10 @@ module.exports = {
     },
     minimizer: ['...', new CssMinimizerPlugin()],
   },
+  performance: {
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
@@ -43,6 +46,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
+      favicon: path.join(__dirname, 'public', 'favicon.ico'),
     }),
     new MiniCssExtractPlugin({
       filename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css',
