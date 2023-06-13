@@ -1,28 +1,32 @@
 import { $color, $lineWidth } from '../../model';
 
-import { Tool } from './tool';
+import { Tool } from './types';
 
-class BrushTool extends Tool {
+class BrushTool implements Tool {
   title: string = 'brush';
   isDrawing: boolean = false;
 
-  startDraw() {
+  startDraw(event: MouseEvent, context: CanvasRenderingContext2D) {
     this.isDrawing = true;
 
-    this.context.lineWidth = parseInt($lineWidth.getState());
-    this.context.strokeStyle = $color.getState();
-    this.context.beginPath();
+    context.lineWidth = parseInt($lineWidth.getState());
+    context.strokeStyle = $color.getState();
+    context.beginPath();
   }
-
-  draw(event: MouseEvent | TouchEvent) {
+  draw(event: MouseEvent, context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     if (this.isDrawing) {
-      const isTouch = event instanceof TouchEvent;
+      const currentX = event.clientX;
+      const currentY = event.clientY - canvas.offsetTop;
 
-      const clientX = isTouch ? event.touches[0].clientX : event.clientX;
-      const clientY = (isTouch ? event.touches[0].clientY : event.clientY) - this.canvas.offsetTop;
+      context.lineTo(currentX, currentY);
+      context.stroke();
+    }
+  }
+  endDraw(event: MouseEvent, context: CanvasRenderingContext2D) {
+    if (this.isDrawing) {
+      this.isDrawing = false;
 
-      this.context.lineTo(clientX, clientY);
-      this.context.stroke();
+      context.beginPath();
     }
   }
 }

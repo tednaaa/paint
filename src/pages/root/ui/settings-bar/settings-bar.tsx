@@ -12,10 +12,7 @@ export const SettingsBar: FC = () => {
 
   return (
     <div className={styles.settingsBar}>
-      <label className={styles.label}>
-        line width:
-        <input className={styles.input} type="range" min="0" max="50" value={lineWidth} onChange={handleInputChange} />
-      </label>
+      <input className={styles.input} type="range" min="0" max="50" value={lineWidth} onChange={handleInputChange} />
     </div>
   );
 };

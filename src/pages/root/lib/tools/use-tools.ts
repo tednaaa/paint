@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Tool } from './tool';
+import { Tool } from './types';
 import { brushTool } from './brush';
 import { rectangleTool } from './rectangle';
 import { circleTool } from './circle';
@@ -8,39 +8,30 @@ import { eraserTool } from './eraser';
 import { lineTool } from './line';
 
 export const useTools = (canvas: HTMLCanvasElement) => {
+  const [context, setContext] = useState<CanvasRenderingContext2D>();
   const [currentTool, setCurrentTool] = useState<Tool>(brushTool);
 
   useEffect(() => {
     if (!canvas || !currentTool) return;
 
-    currentTool.setup(canvas);
+    setContext(canvas.getContext('2d'));
 
-    const startDraw = (event: MouseEvent | TouchEvent) => currentTool.startDraw(event);
-    const draw = (event: MouseEvent | TouchEvent) => currentTool.draw(event);
-    const endDraw = () => currentTool.endDraw();
+    const startDraw = (event: MouseEvent) => currentTool.startDraw(event, context);
+    const draw = (event: MouseEvent) => currentTool.draw(event, context, canvas);
+    const endDraw = (event: MouseEvent) => currentTool.endDraw(event, context);
 
     canvas.addEventListener('mousedown', startDraw);
-    canvas.addEventListener('touchstart', startDraw);
-
-    canvas.addEventListener('touchmove', draw);
     canvas.addEventListener('mousemove', draw);
-
     canvas.addEventListener('mouseleave', endDraw);
     canvas.addEventListener('mouseup', endDraw);
-    canvas.addEventListener('touchend', endDraw);
 
     return () => {
       canvas.removeEventListener('mousedown', startDraw);
-      canvas.removeEventListener('touchstart', startDraw);
-
-      canvas.removeEventListener('touchmove', draw);
       canvas.removeEventListener('mousemove', draw);
-
       canvas.removeEventListener('mouseleave', endDraw);
       canvas.removeEventListener('mouseup', endDraw);
-      canvas.removeEventListener('touchend', endDraw);
     };
-  }, [canvas, currentTool]);
+  }, [canvas, currentTool, context]);
 
   return {
     currentTool,
