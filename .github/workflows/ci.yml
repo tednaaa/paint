@@ -2,31 +2,28 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: ['main']
   pull_request:
-    branches: [main]
-
-  workflow_dispatch:
+    branches: ['main']
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Set env vars, install packages and build
-        run: |
-          cp .env.example .env
-          npm ci
-          npm run build
-          npm test
+      - run: npm ci
+      - run: npm run build
+      - run: npm test

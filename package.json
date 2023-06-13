@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve",
+    "dev": "webpack serve --mode=development",
     "prebuild": "rimraf build",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "webpack --mode=production",
     "lint": "eslint --fix './src/**/*.{ts,tsx}'",
     "test:watch": "jest --watch --coverage",
     "test": "jest",
@@ -35,7 +35,6 @@
     "@typescript-eslint/parser": "^5.4.0",
     "babel-loader": "^9.1.2",
     "core-js": "^3.19.3",
-    "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "dotenv": "^16.1.4",
