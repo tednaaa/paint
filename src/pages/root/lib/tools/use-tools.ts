@@ -15,8 +15,14 @@ export const useTools = (canvas: HTMLCanvasElement) => {
 
     currentTool.setup(canvas);
 
-    const startDraw = (event: MouseEvent | TouchEvent) => currentTool.startDraw(event);
-    const draw = (event: MouseEvent | TouchEvent) => currentTool.draw(event);
+    const startDraw = (event: MouseEvent | TouchEvent) => {
+      event.preventDefault();
+      currentTool.startDraw(event);
+    };
+    const draw = (event: MouseEvent | TouchEvent) => {
+      event.preventDefault();
+      currentTool.draw(event);
+    };
     const endDraw = () => currentTool.endDraw();
 
     canvas.addEventListener('mousedown', startDraw);
